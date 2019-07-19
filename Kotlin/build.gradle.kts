@@ -7,7 +7,7 @@ repositories {
 }
 
 kotlin {
-    linuxX64("native") {
+    macosX64("native") {
         binaries {
             executable()
         }
