@@ -1,0 +1,30 @@
+{
+  "name": "parse-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "graphql": "^14.4.1",
+    "@types/graphql": "^14.2.2",
+    "@types/node": "^12.0.10",
+    "@types/common-tags": "^1.8.0",
+    "prettier": "^1.18.2",
+    "common-tags": "^1.8.0",
+    "@types/prettier": "^1.16.4",
+    "typescript": "^3.5.2"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 2
+  }
+}

@@ -1,0 +1,49 @@
+type Holiday {
+  id: String!
+  name: String!
+  fromDate: Date
+  toDate: Date!
+  bla: Bla!
+  user: User
+}
+
+input HolidayInput {
+  id: String!
+  userId: String!
+  name: String!
+  fromDate: Date!
+  toDate: Date!
+}
+
+type User  {
+  id: String!
+  firstName: String!
+  lastName: String!
+}
+
+type HolidayController {
+  all(userId: String!): [Holiday!]!
+  @response
+
+  find(id: String!): Holiday!
+  @response
+
+  create(body: HolidayInput!): Holiday!
+  @response
+
+  update(id: String!, body: HolidayInput!): Holiday!
+  @response
+
+  delete(id: ID!): ID!
+  @response
+}
+
+enum Bla {
+  Progress
+  Bla
+  Ta
+}
+
+scalar Date
+
+directive @response on FIELD_DEFINITION
