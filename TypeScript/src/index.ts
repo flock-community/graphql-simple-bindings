@@ -18,7 +18,7 @@ export interface Response<T> {
 
 `;
 pipe(
-  readFileSync('schema.graphql', 'utf-8'),
+  readFileSync('../example/schema.graphql', 'utf-8'),
   also(it => log('\nInput: \n-------\n\n' + it)),
   parse,
   it => response + new TypescriptRenderer().renderDocument(it),
