@@ -1,7 +1,7 @@
 {
-  "name": "graphql-to-rest",
+  "name": "graphql-to-typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,13 +10,13 @@
   "author": "Kasper Peulen",
   "license": "MIT",
   "devDependencies": {
-    "graphql": "^14.4.1",
-    "@types/graphql": "^14.2.2",
-    "@types/node": "^12.0.10",
+    "graphql": "^14.5.4",
+    "@types/graphql": "^14.5.0",
+    "@types/node": "^12.7.3",
     "@types/common-tags": "^1.8.0",
     "common-tags": "^1.8.0",
     "prettier": "^1.18.2",
-    "@types/prettier": "^1.16.4",
+    "@types/prettier": "^1.18.2",
     "typescript": "^3.6.2"
   },
   "prettier": {
