@@ -3,7 +3,7 @@
     "basket": {
       "schemaPath": "./basket/basket.graphql",
       "includes": [
-        "./shared/user/*"
+        "./shared/user/**"
       ]
     },
     "checkout": {

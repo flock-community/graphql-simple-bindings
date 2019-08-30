@@ -113,6 +113,8 @@ export class TypescriptRenderer extends Renderer {
         return `${node.name.value}?`;
       case 'NonNullType':
         return `${node.name.value}`;
+      case 'ListType':
+        return `${node.name.value}`;
     }
   }
 

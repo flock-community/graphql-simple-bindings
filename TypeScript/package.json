@@ -17,7 +17,9 @@
     "common-tags": "^1.8.0",
     "prettier": "^1.18.2",
     "@types/prettier": "^1.18.2",
-    "typescript": "^3.6.2"
+    "typescript": "^3.6.2",
+    "graphql-config": "^2.2.1",
+    "graphql-import": "^0.7.1"
   },
   "prettier": {
     "bracketSpacing": true,
@@ -26,5 +28,8 @@
     "singleQuote": true,
     "printWidth": 120,
     "tabWidth": 2
+  },
+  "dependencies": {
+    "@flock-eco/feature-user": "^1.4.7"
   }
 }

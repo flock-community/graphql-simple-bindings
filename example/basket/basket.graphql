@@ -1,4 +1,6 @@
+# import User from "../../TypeScript/node_modules/@flock-eco/feature-user/schema.graphql"
+
 type Bla {
-  users: [User]
-  title: String
+  usersf: User
+  title: [String]
 }
