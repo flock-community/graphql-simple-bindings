@@ -95,14 +95,7 @@ export class TypescriptRenderer extends Renderer {
     `;
   }
 
-  renderResponse(node: FieldDefinitionNode): string {
-    return `${node.name.value}${this.renderArguments(node.arguments)}: Promise<Response<${this.renderType(node.type)}>>` ;
-  }
-
   renderMethod(node: FieldDefinitionNode): string {
-    if (node.directives != null && node.directives.some(it => it.name.value === 'response')) {
-      return this.renderResponse(node);
-    }
     return `${node.name.value}${this.renderArguments(node.arguments)}: ${this.renderType(node.type)}`;
   }
 
