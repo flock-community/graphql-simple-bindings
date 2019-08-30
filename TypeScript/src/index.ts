@@ -1,6 +1,6 @@
 import { parse } from 'graphql/language';
 import fs, { readFileSync } from 'fs';
-import {TypescriptRenderer } from './renderer';
+import { TypescriptRenderer } from './renderer';
 import * as prettier from 'prettier';
 import { also, pipe } from './fp';
 const { log } = console;

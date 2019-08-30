@@ -150,4 +150,3 @@ export class TypescriptRenderer extends Renderer {
     }
   }
 }
-
