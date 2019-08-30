@@ -1,0 +1,19 @@
+{
+  "projects": {
+    "basket": {
+      "schemaPath": "./basket/basket.graphql",
+      "includes": [
+        "./shared/user/*"
+      ]
+    },
+    "checkout": {
+      "schemaPath": "./checkout/checkout.graphql",
+      "includes": [
+        "./shared/**"
+      ],
+      "excludes": [
+        "./shared/user/*"
+      ]
+    }
+  }
+}

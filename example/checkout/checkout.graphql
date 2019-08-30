@@ -15,10 +15,13 @@ input HolidayInput {
   toDate: Date!
 }
 
-type User  {
-  id: String!
-  firstName: String!
-  lastName: String!
+type UserPage {
+  products: [ Product]
+}
+
+type ProductPage {
+  products: [Product]
+  title: String
 }
 
 enum Bla {
@@ -27,4 +30,5 @@ enum Bla {
   Ta
 }
 
-scalar Date
+
+directive @url on FIELD_DEFINITION
