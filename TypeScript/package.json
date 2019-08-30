@@ -9,9 +9,9 @@
   "keywords": [],
   "author": "Kasper Peulen",
   "license": "MIT",
+  "repository": "https://github.com/flock-community/GraphQL-to-REST",
   "devDependencies": {
     "graphql": "^14.5.4",
-    "@types/graphql": "^14.5.0",
     "@types/node": "^12.7.3",
     "@types/common-tags": "^1.8.0",
     "common-tags": "^1.8.0",
