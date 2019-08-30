@@ -29,6 +29,3 @@ enum Bla {
   Bla
   Ta
 }
-
-
-directive @url on FIELD_DEFINITION
