@@ -1,5 +1,4 @@
 type Bla {
-    users: [User]
-    title: String
+  users: [User]
+  title: String
 }
-

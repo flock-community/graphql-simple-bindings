@@ -1,4 +1,4 @@
 type App {
-    bla: Bla
-    user: User
+  bla: Bla
+  user: User
 }

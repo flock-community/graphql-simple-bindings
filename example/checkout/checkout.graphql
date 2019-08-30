@@ -16,7 +16,7 @@ input HolidayInput {
 }
 
 type UserPage {
-  products: [ Product]
+  products: [Product]
 }
 
 type ProductPage {
