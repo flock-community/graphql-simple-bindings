@@ -1,6 +1,5 @@
 import {
   DefinitionNode,
-  DirectiveNode,
   DocumentNode,
   EnumTypeDefinitionNode,
   FieldDefinitionNode,
@@ -8,12 +7,10 @@ import {
   InputValueDefinitionNode,
   InterfaceTypeDefinitionNode,
   ListTypeNode,
-  Location,
   NamedTypeNode,
   NameNode,
   NonNullTypeNode,
   ObjectTypeDefinitionNode,
-  StringValueNode,
   TypeNode,
 } from 'graphql';
 
@@ -74,7 +71,7 @@ export abstract class Renderer {
 
 export class TypescriptRenderer extends Renderer {
   renderObjectTypeDefinition(node: ObjectTypeDefinitionNode) {
-    let extend = node.interfaces.length === 0 ? '' : `extends ${node.interfaces.map(it => it.name.value).join(',')}`;
+    const extend = node.interfaces.length === 0 ? '' : `extends ${node.interfaces.map(it => it.name.value).join(',')}`;
     return `
       export interface ${node.name.value} ${extend} {
         ${node.fields.map(field => this.renderFieldDefinition(field)).join(';')}
@@ -159,23 +156,5 @@ export class TypescriptRenderer extends Renderer {
         return string;
     }
   }
-}
-
-export class KotlinRenderer extends Renderer {}
-
-// class KotlinRenderer implements Renderer {}
-
-interface InterfaceAble {
-  readonly loc?: Location;
-  readonly description?: StringValueNode;
-  readonly name: NameNode;
-  readonly interfaces?: ReadonlyArray<NamedTypeNode>;
-  readonly directives?: ReadonlyArray<DirectiveNode>;
-  readonly fields?: ReadonlyArray<FieldDefinitionNode>;
-}
-
-interface Response<T> {
-  data: T,
-  errors: {message: string, type: any}[]
 }
 

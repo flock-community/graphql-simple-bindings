@@ -21,23 +21,6 @@ type User  {
   lastName: String!
 }
 
-type HolidayController {
-  all(userId: String!): [Holiday!]!
-  @response
-
-  find(id: String!): Holiday!
-  @response
-
-  create(body: HolidayInput!): Holiday!
-  @response
-
-  update(id: String!, body: HolidayInput!): Holiday!
-  @response
-
-  delete(id: ID!): ID!
-  @response
-}
-
 enum Bla {
   Progress
   Bla
@@ -45,5 +28,3 @@ enum Bla {
 }
 
 scalar Date
-
-directive @response on FIELD_DEFINITION
