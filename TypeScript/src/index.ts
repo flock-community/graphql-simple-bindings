@@ -6,13 +6,12 @@ import { also, pipe } from './fp';
 import { importSchema } from 'graphql-import';
 const { log } = console;
 
-
 pipe(
-  importSchema('../../example/basket/basket.graphql'),
+  importSchema('../../example/app/app.graphql'),
   also(it => log('\nInput: \n-------\n\n' + it)),
   parse,
   it => new TypescriptRenderer().renderDocument(it),
   it => prettier.format(it, { parser: 'typescript' }),
-  also(it => fs.writeFileSync('../../example/dist/basket.ts', it)),
+  also(it => fs.writeFileSync('../../example/dist/app.ts', it)),
   also(it => log('\nOutput: \n-------\n\n' + it)),
 );

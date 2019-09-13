@@ -1,3 +1,7 @@
+# import Product from "../shared/product/product.graphql"
+# import User from "../shared/user2/user2.graphql"
+# import Data from "../shared/data/data.graphql"
+
 type Holiday {
   id: String!
   name: String!

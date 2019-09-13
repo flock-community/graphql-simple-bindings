@@ -1,0 +1,32 @@
+{
+  "projects": {
+    "app": {
+      "schemaPath": "./example/app/app.graphql",
+      "includes": [
+        "./TypeScript/node_modules/@flock-eco/feature-user/schema.graphql*",
+        "./example/shared/date.graphql*"
+      ],
+      "excludes": [
+        ""
+      ]
+    },
+    "basket": {
+      "schemaPath": "./example/basket/basket.graphql",
+      "includes": [
+        "./example/shared/user.graphql*"
+      ],
+      "excludes": [
+        ""
+      ]
+    },
+    "checkout": {
+      "schemaPath": "./example/checkout/checkout.graphql",
+      "includes": [
+        "./example/shared/*"
+      ],
+      "excludes": [
+        "./example/shared/user.graphql*"
+      ]
+    }
+  }
+}

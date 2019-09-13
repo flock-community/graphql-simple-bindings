@@ -1,4 +1,7 @@
+# import User from "../../TypeScript/node_modules/@flock-eco/feature-user/schema.graphql"
+# import Date from "../shared/date.graphql"
+
 type App {
-  bla: Bla
   user: User
+  createdAt: Date
 }
