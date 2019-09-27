@@ -1,11 +1,11 @@
 import { parse } from 'graphql/language';
 import fs from 'fs';
 import * as prettier from 'prettier';
-import { also, pipe } from './fp';
+import { also, pipe } from '../fp';
 import { importSchema } from 'graphql-import';
-import { TypescriptRenderer } from './ts-renderer';
+import { TypescriptRenderer } from '../ts-renderer';
 
-test('renderDocument', () => {
+test('render example/app/app.graphql', () => {
   const input = `type App {
   user: User
   createdAt: Date
