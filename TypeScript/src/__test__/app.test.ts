@@ -1,13 +1,11 @@
-import { parse } from 'graphql/language';
 import fs from 'fs';
-import * as prettier from 'prettier';
 import { also, pipe } from '../fp';
 import { importSchema } from 'graphql-import';
-import { TypescriptRenderer } from '../ts-renderer';
+import { gql2ts } from '../index';
 
 test('render example/app/app.graphql', () => {
   const input = `type App {
-  user: User
+  user: User!
   createdAt: Date
 }
 
@@ -26,14 +24,14 @@ type Account {
 `;
 
   const output = `export interface App {
-  user?: User;
+  user: User;
   createdAt?: Date;
 }
 
 export interface User {
   name?: string;
   email?: string;
-  account: Account[];
+  account?: Account[];
 }
 
 export interface Account {
@@ -45,9 +43,7 @@ export interface Account {
   pipe(
     importSchema('../example/app/app.graphql'),
     also(it => expect(it).toEqual(input)),
-    parse,
-    it => new TypescriptRenderer().renderDocument(it),
-    it => prettier.format(it, { parser: 'typescript' }),
+    gql2ts,
     also(it => fs.writeFileSync('../example/dist/app.ts', it)),
     also(it => expect(output).toEqual(it)),
   );

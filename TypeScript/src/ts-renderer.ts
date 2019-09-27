@@ -54,10 +54,9 @@ export class TypescriptRenderer extends Renderer {
   renderFieldName(node: { name: NameNode; type: TypeNode }) {
     switch (node.type.kind) {
       case 'NamedType':
+      case 'ListType':
         return `${node.name.value}?`;
       case 'NonNullType':
-        return `${node.name.value}`;
-      case 'ListType':
         return `${node.name.value}`;
     }
   }

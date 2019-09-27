@@ -2,6 +2,6 @@
 # import Date from "../shared/date.graphql"
 
 type App {
-  user: User
+  user: User!
   createdAt: Date
 }
