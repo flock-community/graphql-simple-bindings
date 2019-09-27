@@ -44,7 +44,7 @@ export interface Account {
 
   pipe(
     importSchema('../example/app/app.graphql'),
-    also(it => expect(it).toBe(input)),
+    also(it => expect(it).toEqual(input)),
     parse,
     it => new TypescriptRenderer().renderDocument(it),
     it => prettier.format(it, { parser: 'typescript' }),
