@@ -1,2 +1,4 @@
 .gradle/
+.mvn/
 build/
+target/
