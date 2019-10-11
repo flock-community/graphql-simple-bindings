@@ -1,26 +1,29 @@
 package community.flock.graphqltorest.reader
 
+import community.flock.graphqltorest.renderer.KotlinRenderer
+import graphql.parser.Parser
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import java.io.File
-import java.time.LocalDate
 
 
 @Component
 class DirectoryReader(env: Environment) {
 
-    private final val answer = Unit
-//            .let { File(env.getProperty("workdirectory") + "/../example").listFiles() ?: arrayOf() }
-//            .map { File(it.canonicalPath) }
-//            .filter { it.isDirectory }
-//            .first { it.canonicalPath.contains("app") }
-//            .let { it.listFiles() ?: arrayOf() }
-//            .first()
-//            .also { println(it.canonicalPath) }
-//            .bufferedReader(Charsets.UTF_8)
-//            .let { Parser().parseDocument(it) }
-//            .also { println(it) }
-//            .let { KotlinRenderer().renderDocument(it) }
-//            .also { println(it) }
+    init {
+        if (env.getProperty("run", Boolean::class.java) == true) {
+            env.getProperty("exampleDirectory")?.let { File(it) }
+                    .let { it?.listFiles() ?: arrayOf() }
+                    .map { File(it.canonicalPath) }
+                    .apply { forEach { println(it) } }
+                    .filter { it.isDirectory }
+                    .first { it.canonicalPath.contains("example/shared") }
+                    .let { it.listFiles() ?: arrayOf() }
+                    .map { it.bufferedReader(Charsets.UTF_8) }
+                    .map { Parser().parseDocument(it) }
+                    .map { KotlinRenderer().renderDocument(it, false) }
+                    .forEach { println("********** Output:\n$it\n**********") }
+        }
+    }
 
 }

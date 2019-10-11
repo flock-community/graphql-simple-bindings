@@ -1,41 +1,52 @@
 package community.flock.graphqltorest.renderer
 
-import com.pinterest.ktlint.core.KtLint
-import com.pinterest.ktlint.core.LintError
-import com.pinterest.ktlint.ruleset.standard.StandardRuleSetProvider
 import community.flock.graphqltorest.exceptions.DefinitionRenderException
+import community.flock.graphqltorest.exceptions.TypeRenderException
 import graphql.language.*
+import graphql.schema.idl.TypeInfo
 
 abstract class Renderer {
 
     open fun renderDocument(document: Document): String = document.definitions
-            .mapNotNull { renderDefinition(it) }
+            .mapNotNull { it.renderDefinition() }
             .joinToString("\n")
-            .let { "package community.flock.graphqltorest\n\nimport java.time.LocalDate\n\n$it" }
-            .let { KtLint.format(params(it)) }
-            .also { println(it) }
 
-    private fun params(text: String) = KtLint.Params(
-            text = text,
-            ruleSets = setOf(StandardRuleSetProvider().get()),
-            cb = ::print,
-            debug = true
-    )
-
-    private fun print(e: LintError, ignore: Boolean) = println(e)
-
-    private fun renderDefinition(definition: Definition<Definition<*>>) = when (definition) {
-        is ObjectTypeDefinition -> renderObjectTypeDefinition(definition)
-        is ScalarTypeDefinition -> renderScalarTypeDefinition(definition)
-        is InputObjectTypeDefinition -> renderInputObjectTypeDefinition(definition)
-        is EnumTypeDefinition -> renderEnumTypeDefinition(definition)
-        is InterfaceTypeDefinition -> renderInterfaceTypeDefinition(definition)
-        else -> throw DefinitionRenderException(definition)
+    private fun Definition<Definition<*>>.renderDefinition() = when (this) {
+        is ObjectTypeDefinition -> renderObjectTypeDefinition()
+        is ScalarTypeDefinition -> renderScalarTypeDefinition()
+        is InputObjectTypeDefinition -> renderInputObjectTypeDefinition()
+        is EnumTypeDefinition -> renderEnumTypeDefinition()
+        is InterfaceTypeDefinition -> renderInterfaceTypeDefinition()
+        else -> throw DefinitionRenderException(this)
     }
 
-    protected abstract fun renderObjectTypeDefinition(definition: ObjectTypeDefinition): String
-    protected abstract fun renderScalarTypeDefinition(definition: ScalarTypeDefinition): String?
-    protected abstract fun renderInputObjectTypeDefinition(definition: InputObjectTypeDefinition): String
-    protected abstract fun renderEnumTypeDefinition(definition: EnumTypeDefinition): String
-    protected abstract fun renderInterfaceTypeDefinition(definition: InterfaceTypeDefinition): String
+    protected abstract fun ObjectTypeDefinition.renderObjectTypeDefinition(): String
+    protected abstract fun ScalarTypeDefinition.renderScalarTypeDefinition(): String?
+    protected abstract fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String
+    protected abstract fun EnumTypeDefinition.renderEnumTypeDefinition(): String
+    protected abstract fun InterfaceTypeDefinition.renderInterfaceTypeDefinition(): String
+
+    protected fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
+    protected abstract fun FieldDefinition.renderField(): String
+
+    protected abstract fun nullableListOf(type: String): String
+    protected abstract fun nonNullableListOf(type: String): String
+    protected abstract fun String.toNullable(): String
+    protected abstract fun String.toNonNullable(): String
+
+    protected fun Type<Type<*>>.renderType(): String = when (this) {
+        is NonNullType -> type.toNonNullableType()
+        is ListType -> nullableListOf(type.renderType())
+        is TypeName -> toName().toNullable()
+        else -> throw TypeRenderException(this)
+    }
+
+    private fun Type<Type<*>>.toNonNullableType(): String = when (this) {
+        is ListType -> nonNullableListOf(type.renderType())
+        is TypeName -> toName().toNonNullable()
+        else -> throw TypeRenderException(this)
+    }
+
+    private fun Type<Type<*>>.toName(): String = TypeInfo.typeInfo(this).name
+
 }

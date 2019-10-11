@@ -1,1 +1,1 @@
-mvn test -Dworkdirectory="$(pwd)"
+mvn test -DexampleDirectory="$(pwd)/../example"

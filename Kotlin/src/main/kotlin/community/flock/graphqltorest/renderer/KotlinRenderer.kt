@@ -1,41 +1,39 @@
 package community.flock.graphqltorest.renderer
 
-import community.flock.graphqltorest.exceptions.FieldTypeRenderException
+import community.flock.graphqltorest.exceptions.EnumTypeDefinitionRenderException
+import community.flock.graphqltorest.exceptions.InputObjectTypeDefinitionRenderException
+import community.flock.graphqltorest.exceptions.InterfaceTypeDefinitionRenderException
+import community.flock.graphqltorest.exceptions.ScalarTypeDefinitionRenderException
+import community.flock.graphqltorest.linter.KotlinLinter
 import graphql.language.*
-import graphql.schema.idl.TypeInfo.typeInfo
 
 class KotlinRenderer : Renderer() {
 
-    override fun renderObjectTypeDefinition(definition: ObjectTypeDefinition) = """
-        data class ${definition.name}(
-            ${definition.fieldDefinitions.renderFields()}
-        )
-    """.trimIndent() + "\n".also {
-        println(it)
+    fun renderDocument(document: Document, lint: Boolean) = renderDocument(document)
+            .let { if (lint) KotlinLinter.lint(it) else it }
+
+    override fun renderDocument(document: Document): String = super.renderDocument(document)
+            .let { "package community.flock.graphqltorest\n\n$it" }
+
+    override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "data class $name(\n" +
+            fieldDefinitions.renderFields() +
+            "\n)\n"
+
+    override fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
+
+    override fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionRenderException(this)
+
+    override fun ScalarTypeDefinition.renderScalarTypeDefinition(): String? = when (name) {
+        "Date" -> "typealias Date = java.time.LocalDate\n"
+        else -> throw ScalarTypeDefinitionRenderException(this)
     }
 
-    private fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
-    private fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
+    override fun EnumTypeDefinition.renderEnumTypeDefinition(): String = throw EnumTypeDefinitionRenderException(this)
+    override fun InterfaceTypeDefinition.renderInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionRenderException(this)
 
-    private fun Type<Type<*>>.renderType(): String = when (this) {
-        is NonNullType -> type.renderNonNullType()
-        is ListType -> "List<${type.renderType()}>?"
-        is TypeName -> "${typeInfo(this).name}?"
-        else -> throw FieldTypeRenderException(this)
-    }
+    override fun nullableListOf(type: String): String = nonNullableListOf(type).toNullable()
+    override fun nonNullableListOf(type: String): String = "List<$type>"
+    override fun String.toNullable(): String = "$this?"
+    override fun String.toNonNullable(): String = this
 
-    private fun Type<Type<*>>.renderNonNullType(): String = when (this) {
-        is NonNullType -> type.renderNonNullType()
-        is ListType -> "List<${type.renderType()}>"
-        is TypeName -> typeInfo(this).name
-        else -> throw FieldTypeRenderException(this)
-    }
-
-    override fun renderInputObjectTypeDefinition(definition: InputObjectTypeDefinition): String = "InputObjectType"
-    override fun renderEnumTypeDefinition(definition: EnumTypeDefinition): String = "EnumType"
-    override fun renderInterfaceTypeDefinition(definition: InterfaceTypeDefinition): String = "InterfaceType"
-    override fun renderScalarTypeDefinition(definition: ScalarTypeDefinition): String? = when (val name = definition.name) {
-        "Date" -> "typealias Date = java.time.LocalDate"
-        else -> null
-    }
 }
