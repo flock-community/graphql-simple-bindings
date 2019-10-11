@@ -39,7 +39,8 @@ class GraphqlToRestApplicationTests {
             }
 		""".trimIndent()
 
-        val file = File(env.getProperty("workdirectory") + "/../example/dist/App.kt")
+        val pathName = env.getProperty("workdirectory") + "/../example/dist/App.kt"
+        val file = File(pathName)
 
         Parser().parseDocument(input)
                 .let { KotlinRenderer().renderDocument(it) }

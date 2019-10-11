@@ -1,5 +1,6 @@
 package community.flock.graphqltorest.renderer
 
+import community.flock.graphqltorest.exceptions.FieldTypeRenderException
 import graphql.language.*
 import graphql.schema.idl.TypeInfo.typeInfo
 
@@ -9,30 +10,32 @@ class KotlinRenderer : Renderer() {
         data class ${definition.name}(
             ${definition.fieldDefinitions.renderFields()}
         )
-    """.trimIndent() + "\n"
-
-    private fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
-    private fun FieldDefinition.renderField() = "val $name: ${renderType(type)}"
-
-    private fun <T : Type<*>> renderType(type: Type<T>) = typeInfo(type).name.let {
-        when (type) {
-            is NonNullType -> it
-            is ListType -> "List<${render(it)}>?"
-            else -> "${render(it)}?"
-        }
+    """.trimIndent() + "\n".also {
+        println(it)
     }
 
-    private fun render(type: String) = when (type) {
-        "Date" -> "LocalDate"
-        "ID" -> "String"
-        else -> type
+    private fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
+    private fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
+
+    private fun Type<Type<*>>.renderType(): String = when (this) {
+        is NonNullType -> type.renderNonNullType()
+        is ListType -> "List<${type.renderType()}>?"
+        is TypeName -> "${typeInfo(this).name}?"
+        else -> throw FieldTypeRenderException(this)
+    }
+
+    private fun Type<Type<*>>.renderNonNullType(): String = when (this) {
+        is NonNullType -> type.renderNonNullType()
+        is ListType -> "List<${type.renderType()}>"
+        is TypeName -> typeInfo(this).name
+        else -> throw FieldTypeRenderException(this)
     }
 
     override fun renderInputObjectTypeDefinition(definition: InputObjectTypeDefinition): String = "InputObjectType"
     override fun renderEnumTypeDefinition(definition: EnumTypeDefinition): String = "EnumType"
     override fun renderInterfaceTypeDefinition(definition: InterfaceTypeDefinition): String = "InterfaceType"
-    override fun renderScalarTypeDefinition(definition: ScalarTypeDefinition): String = when (val name = definition.name) {
-        "Date" -> "LocalDate"
-        else -> name
+    override fun renderScalarTypeDefinition(definition: ScalarTypeDefinition): String? = when (val name = definition.name) {
+        "Date" -> "typealias Date = java.time.LocalDate"
+        else -> null
     }
 }

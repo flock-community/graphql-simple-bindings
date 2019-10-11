@@ -10,13 +10,13 @@ import java.time.LocalDate
 class DirectoryReader(env: Environment) {
 
     private final val answer = Unit
-            .let { File(env.getProperty("workdirectory") + "/../example").listFiles() ?: arrayOf() }
-            .map { File(it.canonicalPath) }
-            .filter { it.isDirectory }
-            .first { it.canonicalPath.contains("app") }
-            .let { it.listFiles() ?: arrayOf() }
-            .first()
-            .also { println(it.canonicalPath) }
+//            .let { File(env.getProperty("workdirectory") + "/../example").listFiles() ?: arrayOf() }
+//            .map { File(it.canonicalPath) }
+//            .filter { it.isDirectory }
+//            .first { it.canonicalPath.contains("app") }
+//            .let { it.listFiles() ?: arrayOf() }
+//            .first()
+//            .also { println(it.canonicalPath) }
 //            .bufferedReader(Charsets.UTF_8)
 //            .let { Parser().parseDocument(it) }
 //            .also { println(it) }
