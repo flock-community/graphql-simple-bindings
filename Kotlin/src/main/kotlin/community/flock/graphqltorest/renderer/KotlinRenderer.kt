@@ -19,11 +19,12 @@ class KotlinRenderer : Renderer() {
             fieldDefinitions.renderFields() +
             "\n)\n"
 
+    override fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
     override fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
 
     override fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionRenderException(this)
 
-    override fun ScalarTypeDefinition.renderScalarTypeDefinition(): String? = when (name) {
+    override fun ScalarTypeDefinition.renderScalarTypeDefinition(): String = when (name) {
         "Date" -> "typealias Date = java.time.LocalDate\n"
         else -> throw ScalarTypeDefinitionRenderException(this)
     }

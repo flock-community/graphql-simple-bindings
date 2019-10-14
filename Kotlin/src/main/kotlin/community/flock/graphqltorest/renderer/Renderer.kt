@@ -5,7 +5,7 @@ import community.flock.graphqltorest.exceptions.TypeRenderException
 import graphql.language.*
 import graphql.schema.idl.TypeInfo
 
-abstract class Renderer {
+abstract class Renderer : DefinitionRenderer, FieldRenderer, TypeRenderer {
 
     open fun renderDocument(document: Document): String = document.definitions
             .mapNotNull { it.renderDefinition() }
@@ -19,20 +19,6 @@ abstract class Renderer {
         is InterfaceTypeDefinition -> renderInterfaceTypeDefinition()
         else -> throw DefinitionRenderException(this)
     }
-
-    protected abstract fun ObjectTypeDefinition.renderObjectTypeDefinition(): String
-    protected abstract fun ScalarTypeDefinition.renderScalarTypeDefinition(): String?
-    protected abstract fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String
-    protected abstract fun EnumTypeDefinition.renderEnumTypeDefinition(): String
-    protected abstract fun InterfaceTypeDefinition.renderInterfaceTypeDefinition(): String
-
-    protected fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
-    protected abstract fun FieldDefinition.renderField(): String
-
-    protected abstract fun nullableListOf(type: String): String
-    protected abstract fun nonNullableListOf(type: String): String
-    protected abstract fun String.toNullable(): String
-    protected abstract fun String.toNonNullable(): String
 
     protected fun Type<Type<*>>.renderType(): String = when (this) {
         is NonNullType -> type.toNonNullableType()
