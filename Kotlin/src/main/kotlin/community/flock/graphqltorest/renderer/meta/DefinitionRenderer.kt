@@ -1,4 +1,4 @@
-package community.flock.graphqltorest.renderer
+package community.flock.graphqltorest.renderer.meta
 
 import graphql.language.*
 
@@ -6,7 +6,7 @@ internal interface DefinitionRenderer {
 
     fun ObjectTypeDefinition.renderObjectTypeDefinition(): String
 
-    fun ScalarTypeDefinition.renderScalarTypeDefinition(): String
+    fun ScalarTypeDefinition.renderScalarTypeDefinition(): String?
 
     fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String
 

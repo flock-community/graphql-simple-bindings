@@ -1,4 +1,4 @@
-package community.flock.graphqltorest.renderer
+package community.flock.graphqltorest.renderer.meta
 
 import graphql.language.FieldDefinition
 

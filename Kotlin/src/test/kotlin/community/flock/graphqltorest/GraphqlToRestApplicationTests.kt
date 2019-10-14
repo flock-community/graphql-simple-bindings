@@ -1,6 +1,7 @@
 package community.flock.graphqltorest
 
 import community.flock.graphqltorest.renderer.KotlinRenderer
+import community.flock.graphqltorest.renderer.TypeScriptRenderer
 import graphql.parser.Parser
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -17,9 +18,7 @@ class GraphqlToRestApplicationTests {
     @Autowired
     lateinit var env: Environment
 
-    @Test
-    fun contextLoads() {
-        val input = """
+    private val input = """
             type App {
                 user: User!
                 createdAt: Date
@@ -39,6 +38,8 @@ class GraphqlToRestApplicationTests {
             }
 		""".trimIndent()
 
+    @Test
+    fun `Kotlin Renderer`() {
         val file = env.getProperty("exampleDirectory", String::class.java)
                 ?.let { "$it/../example/dist/App.kt" }
                 ?.let { File(it) }
@@ -47,6 +48,17 @@ class GraphqlToRestApplicationTests {
                 .let { KotlinRenderer().renderDocument(it, true) }
                 .let { file?.writeText(it) ?: println(it) }
 
+    }
+
+    @Test
+    fun `TypeScript Renderer`() {
+        val file = env.getProperty("exampleDirectory", String::class.java)
+                ?.let { "$it/../example/dist/appFromKt.ts" }
+                ?.let { File(it) }
+
+        Parser().parseDocument(input)
+                .let { TypeScriptRenderer().renderDocument(it) }
+                .let { file?.writeText(it) ?: println(it) }
     }
 
 }

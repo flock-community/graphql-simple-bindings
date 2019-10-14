@@ -1,4 +1,4 @@
-package community.flock.graphqltorest.renderer
+package community.flock.graphqltorest.renderer.meta
 
 import community.flock.graphqltorest.exceptions.DefinitionRenderException
 import community.flock.graphqltorest.exceptions.TypeRenderException
@@ -20,19 +20,20 @@ abstract class Renderer : DefinitionRenderer, FieldRenderer, TypeRenderer {
         else -> throw DefinitionRenderException(this)
     }
 
+    protected fun Type<Type<*>>.render(): String = TypeInfo.typeInfo(this).name
+
     protected fun Type<Type<*>>.renderType(): String = when (this) {
         is NonNullType -> type.toNonNullableType()
-        is ListType -> nullableListOf(type.renderType())
-        is TypeName -> toName().toNullable()
+        is ListType -> nullableListOf(type)
+        is TypeName -> render().toNullable()
         else -> throw TypeRenderException(this)
     }
 
     private fun Type<Type<*>>.toNonNullableType(): String = when (this) {
-        is ListType -> nonNullableListOf(type.renderType())
-        is TypeName -> toName().toNonNullable()
+        is ListType -> nonNullableListOf(type)
+        is TypeName -> render().toNonNullable()
         else -> throw TypeRenderException(this)
     }
 
-    private fun Type<Type<*>>.toName(): String = TypeInfo.typeInfo(this).name
 
 }

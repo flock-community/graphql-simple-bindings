@@ -4,38 +4,39 @@ import community.flock.graphqltorest.exceptions.EnumTypeDefinitionRenderExceptio
 import community.flock.graphqltorest.exceptions.InputObjectTypeDefinitionRenderException
 import community.flock.graphqltorest.exceptions.InterfaceTypeDefinitionRenderException
 import community.flock.graphqltorest.exceptions.ScalarTypeDefinitionRenderException
-import community.flock.graphqltorest.linter.KotlinLinter
 import community.flock.graphqltorest.renderer.meta.Renderer
 import graphql.language.*
 
-class KotlinRenderer : Renderer() {
+class TypeScriptRenderer : Renderer() {
 
-    fun renderDocument(document: Document, lint: Boolean) = renderDocument(document)
-            .let { if (lint) KotlinLinter.lint(it) else it }
-
-    override fun renderDocument(document: Document): String = super.renderDocument(document)
-            .let { "package community.flock.graphqltorest\n\n$it" }
-
-    override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "data class $name(\n" +
+    override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "export interface $name {\n" +
             fieldDefinitions.renderFields() +
-            "\n)\n"
+            "\n}\n"
 
-    override fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
-    override fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
+    override fun List<FieldDefinition>.renderFields() = joinToString(";\n") { it.renderField() } + ";"
+    override fun FieldDefinition.renderField() = "$name${type.renderType()}"
 
     override fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionRenderException(this)
-
     override fun ScalarTypeDefinition.renderScalarTypeDefinition(): String? = when (name) {
-        "Date" -> "typealias Date = java.time.LocalDate\n"
+        "Date" -> null
         else -> throw ScalarTypeDefinitionRenderException(this)
     }
 
     override fun EnumTypeDefinition.renderEnumTypeDefinition(): String = throw EnumTypeDefinitionRenderException(this)
     override fun InterfaceTypeDefinition.renderInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionRenderException(this)
 
-    override fun nullableListOf(type: Type<Type<*>>): String = nonNullableListOf(type).toNullable()
-    override fun nonNullableListOf(type: Type<Type<*>>): String = "List<${type.renderType()}>"
-    override fun String.toNullable(): String = "${toNonNullable()}?"
-    override fun String.toNonNullable(): String = this
+    override fun nullableListOf(type: Type<Type<*>>): String = "?: ${type.render().render()}[]"
+    override fun nonNullableListOf(type: Type<Type<*>>): String = ": ${type.render().render()}[]"
+    override fun String.toNullable(): String = "?: ${render()}"
+    override fun String.toNonNullable(): String = ": ${render()}"
+
+    private fun String.render() = when (this) {
+        "String" -> "string"
+        "Int" -> "number"
+        "Float" -> "number"
+        "Boolean" -> "boolean"
+        "ID" -> "string"
+        else -> this
+    }
 
 }
