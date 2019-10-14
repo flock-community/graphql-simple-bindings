@@ -4,24 +4,18 @@ import community.flock.graphqltorest.exceptions.EnumTypeDefinitionRenderExceptio
 import community.flock.graphqltorest.exceptions.InputObjectTypeDefinitionRenderException
 import community.flock.graphqltorest.exceptions.InterfaceTypeDefinitionRenderException
 import community.flock.graphqltorest.exceptions.ScalarTypeDefinitionRenderException
-import community.flock.graphqltorest.linter.KotlinLinter
 import community.flock.graphqltorest.renderer.meta.Renderer
 import graphql.language.*
 
-class KotlinRenderer : Renderer() {
-
-    fun renderDocument(document: Document, lint: Boolean) = renderDocument(document)
-            .let { if (lint) KotlinLinter.lint(it) else it }
+object KotlinRenderer : Renderer() {
 
     override fun renderDocument(document: Document): String = super.renderDocument(document)
-            .let { "package community.flock.graphqltorest\n\n$it" }
+            .let { "package community.flock.graphqltorest.generated\n\n$it" }
 
-    override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "data class $name(\n" +
-            fieldDefinitions.renderFields() +
-            "\n)\n"
+    override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "data class $name(\n${fieldDefinitions.renderFields()}\n)\n"
 
     override fun List<FieldDefinition>.renderFields() = joinToString(",\n") { it.renderField() }
-    override fun FieldDefinition.renderField() = "val $name: ${type.renderType()}"
+    override fun FieldDefinition.renderField() = "        val $name: ${type.renderType()}"
 
     override fun InputObjectTypeDefinition.renderInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionRenderException(this)
 

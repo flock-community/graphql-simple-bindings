@@ -20,20 +20,19 @@ abstract class Renderer : DefinitionRenderer, FieldRenderer, TypeRenderer {
         else -> throw DefinitionRenderException(this)
     }
 
-    protected fun Type<Type<*>>.render(): String = TypeInfo.typeInfo(this).name
+    protected val Type<Type<*>>.value: String get() = TypeInfo.typeInfo(this).name
 
     protected fun Type<Type<*>>.renderType(): String = when (this) {
         is NonNullType -> type.toNonNullableType()
         is ListType -> nullableListOf(type)
-        is TypeName -> render().toNullable()
+        is TypeName -> value.toNullable()
         else -> throw TypeRenderException(this)
     }
 
     private fun Type<Type<*>>.toNonNullableType(): String = when (this) {
         is ListType -> nonNullableListOf(type)
-        is TypeName -> render().toNonNullable()
+        is TypeName -> value.toNonNullable()
         else -> throw TypeRenderException(this)
     }
-
 
 }

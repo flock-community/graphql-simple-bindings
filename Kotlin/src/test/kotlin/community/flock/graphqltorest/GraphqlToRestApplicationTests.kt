@@ -2,6 +2,7 @@ package community.flock.graphqltorest
 
 import community.flock.graphqltorest.renderer.KotlinRenderer
 import community.flock.graphqltorest.renderer.TypeScriptRenderer
+import community.flock.graphqltorest.renderer.meta.Renderer
 import graphql.parser.Parser
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,26 +40,19 @@ class GraphqlToRestApplicationTests {
 		""".trimIndent()
 
     @Test
-    fun `Kotlin Renderer`() {
-        val file = env.getProperty("exampleDirectory", String::class.java)
-                ?.let { "$it/../example/dist/App.kt" }
-                ?.let { File(it) }
-
-        Parser().parseDocument(input)
-                .let { KotlinRenderer().renderDocument(it, true) }
-                .let { file?.writeText(it) ?: println(it) }
-
-    }
+    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer to "App.kt".file
 
     @Test
-    fun `TypeScript Renderer`() {
-        val file = env.getProperty("exampleDirectory", String::class.java)
-                ?.let { "$it/../example/dist/appFromKt.ts" }
-                ?.let { File(it) }
+    fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer to "appFromKt.ts".file
 
-        Parser().parseDocument(input)
-                .let { TypeScriptRenderer().renderDocument(it) }
-                .let { file?.writeText(it) ?: println(it) }
-    }
+    private infix fun String.renderedWith(renderer: Renderer) = Parser().parseDocument(this)
+            .let { renderer.renderDocument(it) }
+
+    private infix fun String.to(file: File?) = file?.writeText(this) ?: println(this)
+
+    private val String.file
+        get() = env.getProperty("exampleDirectory", String::class.java)
+                ?.let { "$it/../example/dist/$this" }
+                ?.let { File(it) }
 
 }

@@ -21,7 +21,7 @@ class DirectoryReader(env: Environment) {
                     .let { it.listFiles() ?: arrayOf() }
                     .map { it.bufferedReader(Charsets.UTF_8) }
                     .map { Parser().parseDocument(it) }
-                    .map { KotlinRenderer().renderDocument(it, false) }
+                    .map { KotlinRenderer.renderDocument(it) }
                     .forEach { println("********** Output:\n$it\n**********") }
         }
     }
