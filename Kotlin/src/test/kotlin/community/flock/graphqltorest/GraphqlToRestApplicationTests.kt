@@ -40,15 +40,15 @@ class GraphqlToRestApplicationTests {
 		""".trimIndent()
 
     @Test
-    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer to "App.kt".file
+    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer to "appFromKt.ts".file
+    fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer writtenTo "appFromKt.ts".file
 
     private infix fun String.renderedWith(renderer: Renderer) = Parser().parseDocument(this)
             .let { renderer.renderDocument(it) }
 
-    private infix fun String.to(file: File?) = file?.writeText(this) ?: println(this)
+    private infix fun String.writtenTo(file: File?) = file?.writeText(this) ?: println(this)
 
     private val String.file
         get() = env.getProperty("exampleDirectory", String::class.java)
