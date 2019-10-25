@@ -1,11 +1,10 @@
-package community.flock.graphqltorest.reader
+package community.flock.graphqltorest
 
 import community.flock.graphqltorest.renderer.KotlinRenderer
 import graphql.parser.Parser
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import java.io.File
-
 
 @Component
 class DirectoryReader(env: Environment) {

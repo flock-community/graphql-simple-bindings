@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class GraphqlToRestApplication
 
 fun main(args: Array<String>) {
-	runApplication<GraphqlToRestApplication>(*args)
+    runApplication<GraphqlToRestApplication>(*args)
 }
