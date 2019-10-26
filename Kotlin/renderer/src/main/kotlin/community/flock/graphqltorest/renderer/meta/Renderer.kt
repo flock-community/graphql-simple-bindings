@@ -3,13 +3,18 @@ package community.flock.graphqltorest.renderer.meta
 import community.flock.graphqltorest.exceptions.DefinitionRenderException
 import community.flock.graphqltorest.exceptions.TypeRenderException
 import graphql.language.*
+import graphql.parser.Parser
 import graphql.schema.idl.TypeInfo
+import java.io.Reader
 
 abstract class Renderer : DefinitionRenderer, FieldRenderer, TypeRenderer {
 
     open fun renderDocument(document: Document): String = document.definitions
             .mapNotNull { it.renderDefinition() }
             .joinToString("\n")
+
+    fun parseSchema(reader: Reader): Document = Parser().parseDocument(reader)
+    fun parseSchema(schema: String): Document = Parser().parseDocument(schema)
 
     private fun Definition<Definition<*>>.renderDefinition() = when (this) {
         is ObjectTypeDefinition -> renderObjectTypeDefinition()

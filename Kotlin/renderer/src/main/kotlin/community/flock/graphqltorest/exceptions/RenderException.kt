@@ -2,16 +2,16 @@ package community.flock.graphqltorest.exceptions
 
 import graphql.language.*
 
-open class RenderException(msg: String) : RuntimeException(msg)
+open class RenderException(msg: String) : RuntimeException("This should not happen. $msg")
 
-class TypeRenderException(type: Type<Type<*>>) : RenderException("This should not happen. New type? -> $type")
+class TypeRenderException(type: Type<Type<*>>) : RenderException("New type? -> $type")
 
-class DefinitionRenderException(definition: Definition<Definition<*>>) : RenderException("This should not happen. New definition? -> $definition")
+class DefinitionRenderException(definition: Definition<Definition<*>>) : RenderException("New definition? -> $definition")
 
-class ScalarTypeDefinitionRenderException(scalar: ScalarTypeDefinition) : RenderException("This should not happen. New scalar? -> ${scalar.name}")
+class ScalarTypeDefinitionRenderException(scalar: ScalarTypeDefinition) : RenderException("New scalar? -> ${scalar.name}")
 
-class InputObjectTypeDefinitionRenderException(inputObject: InputObjectTypeDefinition) : RenderException("This should not happen. New inputObject? -> $inputObject")
+class InputObjectTypeDefinitionRenderException(inputObject: InputObjectTypeDefinition) : RenderException("New inputObject? -> $inputObject")
 
-class EnumTypeDefinitionRenderException(enum: EnumTypeDefinition) : RenderException("This should not happen. New enum? -> $enum")
+class EnumTypeDefinitionRenderException(enum: EnumTypeDefinition) : RenderException("New enum? -> $enum")
 
-class InterfaceTypeDefinitionRenderException(interfaceType: InterfaceTypeDefinition) : RenderException("This should not happen. New interface? -> $interfaceType")
+class InterfaceTypeDefinitionRenderException(interfaceType: InterfaceTypeDefinition) : RenderException("New interface? -> $interfaceType")

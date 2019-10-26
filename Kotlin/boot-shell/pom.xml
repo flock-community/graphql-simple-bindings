@@ -10,6 +10,12 @@
 
     <artifactId>boot-shell</artifactId>
 
+    <properties>
+        <kotlin.source>${project.basedir}/src/main/kotlin</kotlin.source>
+        <graphql.source>${project.basedir}/src/main/graphql</graphql.source>
+        <graphql-to-rest.target>${project.build.directory}/generated-sources/graphql-to-rest</graphql-to-rest.target>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>community.flock</groupId>
@@ -17,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -29,11 +35,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>graphql-java</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -41,9 +42,25 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
+            <plugin>
+                <groupId>community.flock</groupId>
+                <artifactId>graphql-to-rest-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    <language>All</language>
+                    <sourceDirectory>${graphql.source}</sourceDirectory>
+                    <targetDirectory>${graphql-to-rest.target}</targetDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -52,6 +69,10 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <configuration>
+                    <sourceDirs>
+                        <sourceDir>${kotlin.source}</sourceDir>
+                        <sourceDir>${graphql-to-rest.target}</sourceDir>
+                    </sourceDirs>
                     <args>
                         <arg>-Xjsr305=strict</arg>
                     </args>
@@ -66,23 +87,6 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>community.flock</groupId>
-                <artifactId>graphql-to-rest-maven-plugin</artifactId>
-                <version>${project.version}</version>
-                <configuration>
-                    <language>Kotlin</language>
-                    <sourceDirectory>${exampleDirectory}</sourceDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

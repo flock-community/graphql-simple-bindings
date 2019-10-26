@@ -1,0 +1,17 @@
+type App {
+    user: User!
+    createdAt: Date
+}
+
+type User {
+    name: String
+    email: String
+    account: [Account]
+}
+
+scalar Date
+
+type Account {
+    id: Int
+    user: User
+}
