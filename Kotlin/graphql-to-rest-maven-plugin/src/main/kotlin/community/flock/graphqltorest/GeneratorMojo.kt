@@ -1,7 +1,7 @@
 package community.flock.graphqltorest
 
 import community.flock.graphqltorest.Language.*
-import community.flock.graphqltorest.renderer.KotlinRenderer
+import community.flock.graphqltorest.parser.Parser
 import graphql.language.Document
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
@@ -27,7 +27,7 @@ class GeneratorMojo : AbstractMojo() {
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
                 .map { Pair(it.name.split(".")[0], it.bufferedReader(Charsets.UTF_8)) }
-                .map { Pair(it.first, KotlinRenderer.parseSchema(it.second)) }
+                .map { Pair(it.first, Parser.parseSchema(it.second)) }
                 .generate()
     }
 
@@ -35,7 +35,7 @@ class GeneratorMojo : AbstractMojo() {
         Kotlin -> generateKotlin()
         TypeScript -> generateTypeScript()
         All -> generateAll()
-    }.also { log.info("Generating ${language.name}") }
+    }.also { log.info("Generating language: ${language.name}") }
 
     private fun List<Pair<FileName, Document>>.generateAll() {
         generateKotlin()

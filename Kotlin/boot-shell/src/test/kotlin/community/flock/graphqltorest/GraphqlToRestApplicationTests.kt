@@ -1,8 +1,10 @@
 package community.flock.graphqltorest
 
+import community.flock.graphqltorest.parser.Parser
 import community.flock.graphqltorest.renderer.KotlinRenderer
 import community.flock.graphqltorest.renderer.TypeScriptRenderer
 import community.flock.graphqltorest.renderer.meta.Renderer
+import graphql.language.Document
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Value
@@ -17,7 +19,9 @@ class GraphqlToRestApplicationTests {
     @Value("\${exampleDirectory:#{null}}")
     var examples: String? = null
 
-    private val input = GraphqlToRestApplicationTests::class.java.getResource("/input.graphql").readText()
+    private val input = GraphqlToRestApplicationTests::class.java.getResource("/input.graphql")
+            .readText()
+            .let { Parser.parseSchema(it) }
 
     @Test
     fun `Kotlin Renderer`() = input renderedWith KotlinRenderer writtenTo "App.kt".file
@@ -25,8 +29,7 @@ class GraphqlToRestApplicationTests {
     @Test
     fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer writtenTo "appFromKt.ts".file
 
-    private infix fun String.renderedWith(renderer: Renderer) = renderer.parseSchema(this)
-            .let { renderer.renderDocument(it) }
+    private infix fun Document.renderedWith(renderer: Renderer) = renderer.renderDocument(this)
 
     private infix fun String.writtenTo(file: File?) = file?.writeText(this) ?: println(this)
 
