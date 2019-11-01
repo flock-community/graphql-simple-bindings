@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>community.flock</groupId>
-        <artifactId>graphql-to-rest</artifactId>
+        <artifactId>graphql-simple-bindings</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
@@ -13,7 +13,8 @@
     <properties>
         <kotlin.source>${project.basedir}/src/main/kotlin</kotlin.source>
         <graphql.source>${project.basedir}/src/main/graphql</graphql.source>
-        <graphql-to-rest.target>${project.build.directory}/generated-sources/graphql-to-rest</graphql-to-rest.target>
+        <graphql-simple-bindings.target>${project.build.directory}/generated-sources/graphql-simple-bindings
+        </graphql-simple-bindings.target>
     </properties>
 
     <dependencies>
@@ -42,17 +43,16 @@
     </dependencies>
 
     <build>
-        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>community.flock</groupId>
-                <artifactId>graphql-to-rest-maven-plugin</artifactId>
+                <artifactId>graphql-simple-bindings-maven-plugin</artifactId>
                 <version>${project.version}</version>
                 <configuration>
                     <language>All</language>
-                    <packageName>community.flock.graphqltorest.generated</packageName>
+                    <packageName>community.flock.graphqlsimplebindings.generated</packageName>
                     <sourceDirectory>${graphql.source}</sourceDirectory>
-                    <targetDirectory>${graphql-to-rest.target}</targetDirectory>
+                    <targetDirectory>${graphql-simple-bindings.target}</targetDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -69,18 +69,37 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <configuration>
-                    <sourceDirs>
-                        <sourceDir>${kotlin.source}</sourceDir>
-                        <sourceDir>${graphql-to-rest.target}</sourceDir>
-                    </sourceDirs>
-                    <args>
-                        <arg>-Xjsr305=strict</arg>
-                    </args>
-                    <compilerPlugins>
-                        <plugin>spring</plugin>
-                    </compilerPlugins>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${kotlin.source}</sourceDir>
+                                <sourceDir>${graphql-simple-bindings.target}</sourceDir>
+                            </sourceDirs>
+                            <args>
+                                <arg>-Xjsr305=strict</arg>
+                            </args>
+                            <compilerPlugins>
+                                <plugin>spring</plugin>
+                            </compilerPlugins>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                </executions>
                 <dependencies>
                     <dependency>
                         <groupId>org.jetbrains.kotlin</groupId>

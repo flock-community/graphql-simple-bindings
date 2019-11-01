@@ -11,14 +11,14 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>community.flock</groupId>
-    <artifactId>graphql-to-rest</artifactId>
+    <artifactId>graphql-simple-bindings</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>graphql-to-rest</name>
+    <name>graphql-simple-bindings</name>
     <description>Generate Kotlin data classes and TypeScript interfaces from GraphQL schema's</description>
 
     <modules>
         <module>boot-shell</module>
-        <module>graphql-to-rest-maven-plugin</module>
+        <module>graphql-simple-bindings-maven-plugin</module>
         <module>renderer</module>
     </modules>
 
