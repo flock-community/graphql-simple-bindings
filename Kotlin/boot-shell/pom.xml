@@ -50,6 +50,7 @@
                 <version>${project.version}</version>
                 <configuration>
                     <language>All</language>
+                    <packageName>community.flock.graphqltorest.generated</packageName>
                     <sourceDirectory>${graphql.source}</sourceDirectory>
                     <targetDirectory>${graphql-to-rest.target}</targetDirectory>
                 </configuration>

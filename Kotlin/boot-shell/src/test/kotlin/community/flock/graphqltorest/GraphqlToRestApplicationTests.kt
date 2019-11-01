@@ -24,7 +24,7 @@ class GraphqlToRestApplicationTests {
             .let { Parser.parseSchema(it) }
 
     @Test
-    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer writtenTo "App.kt".file
+    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer() writtenTo "App.kt".file
 
     @Test
     fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer writtenTo "appFromKt.ts".file

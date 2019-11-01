@@ -7,10 +7,10 @@ import community.flock.graphqltorest.exceptions.ScalarTypeDefinitionRenderExcept
 import community.flock.graphqltorest.renderer.meta.Renderer
 import graphql.language.*
 
-object KotlinRenderer : Renderer() {
+class KotlinRenderer(private val packageName: String = "community.flock.graphqltorest.generated") : Renderer() {
 
     override fun renderDocument(document: Document): String = super.renderDocument(document)
-            .let { "package community.flock.graphqltorest.generated\n\n$it" }
+            .let { "package $packageName\n\n$it" }
 
     override fun ObjectTypeDefinition.renderObjectTypeDefinition() = "data class $name(\n${fieldDefinitions.renderFields()}\n)\n"
 

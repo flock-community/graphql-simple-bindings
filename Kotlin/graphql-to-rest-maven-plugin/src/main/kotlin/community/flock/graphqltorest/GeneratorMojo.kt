@@ -23,6 +23,9 @@ class GeneratorMojo : AbstractMojo() {
     @Parameter(required = true)
     private lateinit var targetDirectory: String
 
+    @Parameter
+    private var packageName: String? = null
+
     override fun execute() {
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
@@ -42,7 +45,10 @@ class GeneratorMojo : AbstractMojo() {
         generateTypeScript()
     }
 
-    private fun List<Pair<FileName, Document>>.generateKotlin() = KotlinGenerator(targetDirectory).generate(this)
+    private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
+            ?.let { KotlinGenerator(targetDirectory, it).generate(this) }
+            ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
+
     private fun List<Pair<FileName, Document>>.generateTypeScript() = TypeScriptGenerator(targetDirectory).generate(this)
 
 }

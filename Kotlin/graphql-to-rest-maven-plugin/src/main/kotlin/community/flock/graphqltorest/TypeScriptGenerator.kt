@@ -11,6 +11,6 @@ class TypeScriptGenerator(targetDirectory: String) : Generator() {
 
     private fun RenderedDocument.disclaimer() = "// This is generated code\n// DO NOT MODIFY\n// It will be overwritten\n\n$this"
 
-    private fun typeScriptPathTemplate(fileName: String) = "$typeScriptDir/$fileName.d.ts"
+    private fun typeScriptPathTemplate(fileName: String) = "$typeScriptDir/${fileName.toLowerCase()}.d.ts"
 
 }
