@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>community.flock</groupId>
-            <artifactId>renderer</artifactId>
+            <artifactId>emitter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -69,7 +69,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Without this plugin the build breaks on generating the descriptor with the renderer dependency -->
+            <!-- Without this plugin the build breaks on generating the descriptor with the emitter dependency -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>

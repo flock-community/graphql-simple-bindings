@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>community.flock</groupId>
-            <artifactId>renderer</artifactId>
+            <artifactId>emitter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

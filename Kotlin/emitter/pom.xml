@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>renderer</artifactId>
+    <artifactId>emitter</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,9 +1,9 @@
 package community.flock.graphqlsimplebindings
 
 import community.flock.graphqlsimplebindings.parser.Parser
-import community.flock.graphqlsimplebindings.renderer.KotlinRenderer
-import community.flock.graphqlsimplebindings.renderer.TypeScriptRenderer
-import community.flock.graphqlsimplebindings.renderer.meta.Renderer
+import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
+import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
+import community.flock.graphqlsimplebindings.emitter.meta.Emitter
 import graphql.language.Document
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,12 +24,12 @@ class GraphqlSimpleBindingsApplicationTests {
             .let { Parser.parseSchema(it) }
 
     @Test
-    fun `Kotlin Renderer`() = input renderedWith KotlinRenderer() writtenTo "App.kt".file
+    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter() writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Renderer`() = input renderedWith TypeScriptRenderer writtenTo "appFromKt.ts".file
+    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter writtenTo "appFromKt.ts".file
 
-    private infix fun Document.renderedWith(renderer: Renderer) = renderer.renderDocument(this)
+    private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
 
     private infix fun String.writtenTo(file: File?) = file?.writeText(this) ?: println(this)
 

@@ -1,8 +1,8 @@
-package community.flock.graphqlsimplebindings.renderer.meta
+package community.flock.graphqlsimplebindings.emitter.meta
 
 import graphql.language.Type
 
-internal interface TypeRenderer {
+internal interface TypeEmitter {
 
     fun nullableListOf(type: Type<Type<*>>): String
 

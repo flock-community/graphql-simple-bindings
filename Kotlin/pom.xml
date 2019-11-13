@@ -19,7 +19,7 @@
     <modules>
         <module>boot-shell</module>
         <module>graphql-simple-bindings-maven-plugin</module>
-        <module>renderer</module>
+        <module>emitter</module>
     </modules>
 
     <properties>
@@ -62,7 +62,7 @@
 
             <dependency>
                 <groupId>community.flock</groupId>
-                <artifactId>renderer</artifactId>
+                <artifactId>emitter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
