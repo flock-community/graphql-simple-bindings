@@ -4,7 +4,7 @@
     <parent>
         <groupId>community.flock</groupId>
         <artifactId>graphql-simple-bindings</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </parent>
 
     <artifactId>graphql-simple-bindings-maven-plugin</artifactId>
@@ -89,8 +89,8 @@
     <distributionManagement>
         <repository>
             <id>bintray-flock-community-flock-maven</id>
-            <name>flock-community-flock-maven</name>
-            <url>https://api.bintray.com/maven/flock-community/flock-maven/[PACKAGE_NAME]/;publish=1</url>
+            <name>flock-community-flock-maven-graphql-simple-bindings-maven-plugin-snapshots</name>
+            <url>https://api.bintray.com/maven/flock-community/flock-maven/graphql-simple-bindings-maven-plugin/;publish=1</url>
         </repository>
     </distributionManagement>
 
