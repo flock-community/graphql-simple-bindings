@@ -17,9 +17,9 @@
     <description>Generate Kotlin data classes and TypeScript interfaces from GraphQL schema's</description>
 
     <modules>
-        <module>boot-shell</module>
+        <module>graphql-simple-bindings-boot-shell</module>
         <module>graphql-simple-bindings-maven-plugin</module>
-        <module>emitter</module>
+        <module>graphql-simple-bindings-emitter</module>
     </modules>
 
     <properties>
@@ -62,10 +62,18 @@
 
             <dependency>
                 <groupId>community.flock</groupId>
-                <artifactId>emitter</artifactId>
+                <artifactId>graphql-simple-bindings-emitter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-flock-community-flock-maven</id>
+            <name>flock-community-flock-maven-graphql-simple-bindings</name>
+            <url>https://api.bintray.com/maven/flock-community/flock-maven/graphql-simple-bindings/;publish=1</url>
+        </repository>
+    </distributionManagement>
 
 </project>

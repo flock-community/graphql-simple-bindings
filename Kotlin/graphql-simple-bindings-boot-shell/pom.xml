@@ -8,7 +8,7 @@
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>boot-shell</artifactId>
+    <artifactId>graphql-simple-bindings-boot-shell</artifactId>
 
     <properties>
         <kotlin.source>${project.basedir}/src/main/kotlin</kotlin.source>
@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>community.flock</groupId>
-            <artifactId>emitter</artifactId>
+            <artifactId>graphql-simple-bindings-emitter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

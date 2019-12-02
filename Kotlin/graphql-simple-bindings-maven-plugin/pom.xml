@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>community.flock</groupId>
-            <artifactId>emitter</artifactId>
+            <artifactId>graphql-simple-bindings-emitter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
@@ -85,13 +85,5 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>bintray-flock-community-flock-maven</id>
-            <name>flock-community-flock-maven-graphql-simple-bindings-maven-plugin-snapshots</name>
-            <url>https://api.bintray.com/maven/flock-community/flock-maven/graphql-simple-bindings-maven-plugin/;publish=1</url>
-        </repository>
-    </distributionManagement>
 
 </project>
