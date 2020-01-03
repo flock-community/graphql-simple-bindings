@@ -7,6 +7,7 @@ import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugins.annotations.LifecyclePhase
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
+import org.apache.maven.project.MavenProject
 import java.io.File
 
 typealias FileName = String
@@ -25,6 +26,9 @@ class GeneratorMojo : AbstractMojo() {
 
     @Parameter
     private var packageName: String? = null
+
+    @Parameter(defaultValue = "\${project}", readonly = true, required = true)
+    private lateinit var project: MavenProject
 
     override fun execute() {
         File(targetDirectory).mkdirs()
@@ -49,6 +53,6 @@ class GeneratorMojo : AbstractMojo() {
             ?.let { KotlinGenerator(targetDirectory, it).generate(this) }
             ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
-    private fun List<Pair<FileName, Document>>.generateTypeScript() = TypeScriptGenerator(targetDirectory).generate(this)
+    private fun List<Pair<FileName, Document>>.generateTypeScript() = TypeScriptGenerator(targetDirectory, project.version).generate(this)
 
 }
