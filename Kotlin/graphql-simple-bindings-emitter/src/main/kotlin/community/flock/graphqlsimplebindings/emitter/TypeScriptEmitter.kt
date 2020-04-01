@@ -15,6 +15,8 @@ object TypeScriptEmitter : Emitter() {
     override fun FieldDefinition.emitDefinitionField() = "  $name${type.emitType()}"
 
     override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionEmitterException(this)
+    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = throw NotImplementedError()
+
     override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
         "Date" -> null
         else -> throw ScalarTypeDefinitionEmitterException(this)

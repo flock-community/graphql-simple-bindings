@@ -18,6 +18,7 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     override fun FieldDefinition.emitDefinitionField() = "\tval $name: ${type.emitType()}"
 
     override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionEmitterException(this)
+    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = throw NotImplementedError()
 
     override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
         "Date" -> "typealias Date = java.time.LocalDate\n"
