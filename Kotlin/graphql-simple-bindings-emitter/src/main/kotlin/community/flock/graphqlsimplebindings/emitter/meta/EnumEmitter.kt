@@ -9,8 +9,6 @@ internal interface EnumEmitter {
 
     fun EnumTypeDefinition.emitEnumTypeDefinition(): String
 
-    fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String
-
     fun List<EnumValueDefinition>.emitEnumFields(): String
 
     fun EnumValueDefinition.emitEnumField(): String

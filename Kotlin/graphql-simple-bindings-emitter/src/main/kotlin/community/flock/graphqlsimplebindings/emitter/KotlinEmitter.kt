@@ -25,8 +25,6 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     }
 
     override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = "enum $name{\n${enumValueDefinitions.emitEnumFields()}\n}\n"
-    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionEmitterException(this)
-
     override fun List<EnumValueDefinition>.emitEnumFields() = joinToString(",\n") { it.emitEnumField() }
     override fun EnumValueDefinition.emitEnumField() = "\t$name"
 

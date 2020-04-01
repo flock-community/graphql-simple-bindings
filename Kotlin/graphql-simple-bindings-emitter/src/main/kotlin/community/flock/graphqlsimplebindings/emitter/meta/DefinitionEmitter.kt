@@ -10,4 +10,6 @@ internal interface DefinitionEmitter {
 
     fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String
 
+    fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String
+
 }

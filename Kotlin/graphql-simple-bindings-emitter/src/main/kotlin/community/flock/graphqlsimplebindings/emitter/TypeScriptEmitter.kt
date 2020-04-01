@@ -21,7 +21,6 @@ object TypeScriptEmitter : Emitter() {
     }
 
     override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = throw EnumTypeDefinitionEmitterException(this)
-    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionEmitterException(this)
     override fun List<EnumValueDefinition>.emitEnumFields() = throw NotImplementedError()
     override fun EnumValueDefinition.emitEnumField() = throw NotImplementedError()
 
