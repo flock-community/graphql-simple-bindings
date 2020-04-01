@@ -1,0 +1,8 @@
+enum TestEnum {
+    ONE,
+    TWO
+}
+
+type TestType {
+    test: TestEnum
+}

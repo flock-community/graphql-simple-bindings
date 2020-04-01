@@ -1,11 +1,17 @@
 package community.flock.graphqlsimplebindings.emitter.meta
 
+import community.flock.graphqlsimplebindings.DefinitionEmitter
+import community.flock.graphqlsimplebindings.EnumEmitter
+import community.flock.graphqlsimplebindings.FieldDefinitionEmitter
+import community.flock.graphqlsimplebindings.TypeEmitter
+import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter.emitEnumTypeDefinition
+import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter.emitInterfaceTypeDefinition
 import community.flock.graphqlsimplebindings.exceptions.DefinitionEmitterException
 import community.flock.graphqlsimplebindings.exceptions.TypeEmitterException
 import graphql.language.*
 import graphql.schema.idl.TypeInfo
 
-abstract class Emitter : DefinitionEmitter, FieldEmitter, TypeEmitter {
+abstract class Emitter : DefinitionEmitter, EnumEmitter, FieldDefinitionEmitter, TypeEmitter {
 
     open fun emitDocument(document: Document): String = document.definitions
             .mapNotNull { it.emitDefinition() }
