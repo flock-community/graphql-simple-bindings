@@ -12,10 +12,10 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     override fun emitDocument(document: Document): String = super.emitDocument(document)
             .let { "package $packageName\n\n$it" }
 
-    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "data class $name(\n${fieldDefinitions.emitFields()}\n)\n"
+    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "data class $name(\n${fieldDefinitions.emitDefinitionFields()}\n)\n"
 
-    override fun List<FieldDefinition>.emitFields() = joinToString(",\n") { it.emitField() }
-    override fun FieldDefinition.emitField() = "        val $name: ${type.emitType()}"
+    override fun List<FieldDefinition>.emitDefinitionFields() = joinToString(",\n") { it.emitDefinitionField() }
+    override fun FieldDefinition.emitDefinitionField() = "\tval $name: ${type.emitType()}"
 
     override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionEmitterException(this)
 
@@ -24,8 +24,11 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
         else -> throw ScalarTypeDefinitionEmitterException(this)
     }
 
-    override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = throw EnumTypeDefinitionEmitterException(this)
+    override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = "enum $name{\n${enumValueDefinitions.emitEnumFields()}\n}\n"
     override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionEmitterException(this)
+
+    override fun List<EnumValueDefinition>.emitEnumFields() = joinToString(",\n") { it.emitEnumField() }
+    override fun EnumValueDefinition.emitEnumField() = "\t$name"
 
     override fun nullableListOf(type: Type<Type<*>>): String = nonNullableListOf(type).toNullable()
     override fun nonNullableListOf(type: Type<Type<*>>): String = "List<${type.emitType()}>"

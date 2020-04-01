@@ -1,4 +1,4 @@
-package community.flock.graphqlsimplebindings.emitter.meta
+package community.flock.graphqlsimplebindings
 
 import graphql.language.*
 
@@ -9,9 +9,5 @@ internal interface DefinitionEmitter {
     fun ScalarTypeDefinition.emitScalarTypeDefinition(): String?
 
     fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String
-
-    fun EnumTypeDefinition.emitEnumTypeDefinition(): String
-
-    fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String
 
 }

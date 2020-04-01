@@ -9,10 +9,10 @@ import graphql.language.*
 
 object TypeScriptEmitter : Emitter() {
 
-    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "export interface $name {\n${fieldDefinitions.emitFields()}\n}\n"
+    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "export interface $name {\n${fieldDefinitions.emitDefinitionFields()}\n}\n"
 
-    override fun List<FieldDefinition>.emitFields() = joinToString(";\n") { it.emitField() } + ";"
-    override fun FieldDefinition.emitField() = "  $name${type.emitType()}"
+    override fun List<FieldDefinition>.emitDefinitionFields() = joinToString(";\n") { it.emitDefinitionField() } + ";"
+    override fun FieldDefinition.emitDefinitionField() = "  $name${type.emitType()}"
 
     override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String = throw InputObjectTypeDefinitionEmitterException(this)
     override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
@@ -22,6 +22,8 @@ object TypeScriptEmitter : Emitter() {
 
     override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = throw EnumTypeDefinitionEmitterException(this)
     override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String = throw InterfaceTypeDefinitionEmitterException(this)
+    override fun List<EnumValueDefinition>.emitEnumFields() = throw NotImplementedError()
+    override fun EnumValueDefinition.emitEnumField() = throw NotImplementedError()
 
     override fun nullableListOf(type: Type<Type<*>>): String = "?${nonNullableListOf(type)}"
     override fun nonNullableListOf(type: Type<Type<*>>): String = ": ${type.value.emit()}[]"

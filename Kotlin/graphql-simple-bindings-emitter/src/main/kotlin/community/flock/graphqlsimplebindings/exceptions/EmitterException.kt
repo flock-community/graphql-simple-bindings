@@ -13,5 +13,6 @@ class ScalarTypeDefinitionEmitterException(scalar: ScalarTypeDefinition) : Emitt
 class InputObjectTypeDefinitionEmitterException(inputObject: InputObjectTypeDefinition) : EmitterException("New inputObject? -> $inputObject")
 
 class EnumTypeDefinitionEmitterException(enum: EnumTypeDefinition) : EmitterException("New enum? -> $enum")
+class EnumValueDefinitionEmitterException(enum: EnumValueDefinition) : EmitterException("New enum? -> $enum")
 
 class InterfaceTypeDefinitionEmitterException(interfaceType: InterfaceTypeDefinition) : EmitterException("New interface? -> $interfaceType")
