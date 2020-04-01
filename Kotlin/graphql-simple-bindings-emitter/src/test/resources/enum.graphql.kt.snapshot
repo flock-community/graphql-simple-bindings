@@ -1,10 +1,10 @@
 package community.flock.graphqlsimplebindings.generated
 
-enum TestEnum{
-	ONE,
-	TWO
+enum class TestEnum{
+        ONE,
+        TWO
 }
 
 data class TestType(
-	val test: TestEnum?
+        val test: TestEnum?
 )

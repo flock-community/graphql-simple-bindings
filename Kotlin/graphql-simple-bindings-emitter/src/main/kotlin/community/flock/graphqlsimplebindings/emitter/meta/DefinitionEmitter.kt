@@ -8,8 +8,6 @@ internal interface DefinitionEmitter {
 
     fun ScalarTypeDefinition.emitScalarTypeDefinition(): String?
 
-    fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String
-
     fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String
 
 }

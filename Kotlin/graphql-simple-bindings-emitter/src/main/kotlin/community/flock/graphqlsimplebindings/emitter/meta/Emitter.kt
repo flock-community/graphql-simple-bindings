@@ -5,7 +5,7 @@ import community.flock.graphqlsimplebindings.exceptions.TypeEmitterException
 import graphql.language.*
 import graphql.schema.idl.TypeInfo
 
-abstract class Emitter : DefinitionEmitter, EnumEmitter, FieldDefinitionEmitter, TypeEmitter {
+abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter, FieldDefinitionEmitter, TypeEmitter {
 
     open fun emitDocument(document: Document): String = document.definitions
             .mapNotNull { it.emitDefinition() }

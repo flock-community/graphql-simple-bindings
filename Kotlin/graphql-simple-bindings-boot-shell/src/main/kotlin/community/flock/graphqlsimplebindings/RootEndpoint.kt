@@ -1,6 +1,7 @@
 package community.flock.graphqlsimplebindings
 
 import community.flock.graphqlsimplebindings.generated.Product
+import community.flock.graphqlsimplebindings.generated.Type
 import community.flock.graphqlsimplebindings.generated.User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,7 +17,8 @@ class RootEndpoint {
             user = User(
                     id = "0",
                     firstName = "Ernie",
-                    lastName = "Sesamstraat"
+                    lastName = "Sesamstraat",
+                    type = Type.A
             )
     )
 

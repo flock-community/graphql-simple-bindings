@@ -1,6 +1,6 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
+import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
 import community.flock.graphqlsimplebindings.parser.Parser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -8,7 +8,7 @@ import java.io.FileReader
 import java.io.Reader
 
 
-internal class KotlinEmitterTest {
+internal class TypeScriptEmitterTest {
 
     @Test
     fun testTypes() = run("type")
@@ -19,15 +19,14 @@ internal class KotlinEmitterTest {
     @Test
     fun testInputTypes() = run("input")
 
-    private fun run(name:String){
+    private fun run(name: String) {
         val schemaFile = javaClass.classLoader.getResource("$name.graphql")
-        val snapshotFile = javaClass.classLoader.getResource("$name.graphql.kt.snapshot")
+        val snapshotFile = javaClass.classLoader.getResource("$name.graphql.ts.snapshot")
 
         val targetReader: Reader = FileReader(schemaFile.file)
-        val emitter = KotlinEmitter()
         val schema = Parser.parseSchema(targetReader)
 
-        val res = emitter.emitDocument(schema)
+        val res = TypeScriptEmitter.emitDocument(schema)
 
         assertEquals(snapshotFile.readText(), res)
     }

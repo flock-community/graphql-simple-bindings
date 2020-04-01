@@ -1,0 +1,3 @@
+input HelloInput {
+    world: String
+}
