@@ -8,10 +8,6 @@ internal interface DefinitionEmitter {
 
     fun ScalarTypeDefinition.emitScalarTypeDefinition(): String?
 
-    fun InputObjectTypeDefinition.emitInputObjectTypeDefinition(): String
-
-    fun EnumTypeDefinition.emitEnumTypeDefinition(): String
-
     fun InterfaceTypeDefinition.emitInterfaceTypeDefinition(): String
 
 }

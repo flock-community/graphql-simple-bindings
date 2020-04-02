@@ -2,4 +2,5 @@ type User  {
   id: String!
   firstName: String!
   lastName: String!
+  type: Type
 }

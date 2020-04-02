@@ -1,0 +1,5 @@
+package community.flock.graphqlsimplebindings.generated
+
+data class HelloInput(
+        val world: String?
+)

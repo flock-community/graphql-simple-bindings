@@ -1,0 +1,8 @@
+export enum TestEnum {
+	ONE,
+	TWO
+}
+
+export interface TestType {
+  test?: TestEnum;
+}

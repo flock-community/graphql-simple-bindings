@@ -12,7 +12,7 @@
     </parent>
     <groupId>community.flock</groupId>
     <artifactId>graphql-simple-bindings</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <name>graphql-simple-bindings</name>
     <description>Generate Kotlin data classes and TypeScript interfaces from GraphQL schema's</description>
 
@@ -77,7 +77,7 @@
 
     <distributionManagement>
         <repository>
-            <id>bintray-flock-community-flock-maven</id>
+            <id>bintray-flock-community</id>
             <name>flock-community-flock-maven-graphql-simple-bindings</name>
             <url>https://api.bintray.com/maven/flock-community/flock-maven/graphql-simple-bindings/;publish=1</url>
         </repository>
