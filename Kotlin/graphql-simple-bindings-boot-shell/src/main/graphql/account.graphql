@@ -1,0 +1,15 @@
+interface Acount  {
+  id: ID!
+  lastLogin: DateTime!
+}
+
+type AcountPassword  implements Acount{
+  id: ID!
+  lastLogin: DateTime!
+}
+
+type AcountKey implements Acount {
+  id: ID!
+  lastLogin: DateTime!
+  key: String!
+}

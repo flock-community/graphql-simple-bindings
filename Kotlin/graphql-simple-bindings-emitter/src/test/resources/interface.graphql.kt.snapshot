@@ -1,0 +1,10 @@
+package community.flock.graphqlsimplebindings.generated
+
+interface A(
+      val hello: String?
+)
+
+data class B(
+        val hello: String?
+        val world: String?
+):A

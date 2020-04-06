@@ -1,8 +1,9 @@
 package community.flock.graphqlsimplebindings.emitter
 
-import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
 import community.flock.graphqlsimplebindings.emitter.meta.Emitter
+import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
 import graphql.language.*
+
 const val SPACES = "    "
 
 class KotlinEmitter(private val packageName: String = "community.flock.graphqlsimplebindings.generated") : Emitter() {
@@ -10,16 +11,21 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     override fun emitDocument(document: Document): String = super.emitDocument(document)
             .let { "package $packageName\n\n$it" }
 
-    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "data class $name(\n${fieldDefinitions.emitDefinitionFields()}\n)\n"
+    override fun ObjectTypeDefinition.emitObjectTypeDefinition() = "data class $name(\n${emitFields()}\n)${emitInterfaces()}\n"
 
-    override fun List<FieldDefinition>.emitDefinitionFields() = joinToString(",\n") { it.emitDefinitionField() }
+    private fun ObjectTypeDefinition.emitInterfaces(): String? = (implements as List<TypeName>)
+            .joinToString(",") { it.name }
+
+    override fun ObjectTypeDefinition.emitFields() = fieldDefinitions.joinToString(",\n") { it.emitDefinitionField() }
     override fun FieldDefinition.emitDefinitionField() = "${SPACES}${SPACES}val $name: ${type.emitType()}"
+
+    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = "interface ${name}{\n${emitFields()}\n}\n"
+    override fun InterfaceTypeDefinition.emitFields() = fieldDefinitions.joinToString("\n") { it.emitField() }
+    override fun FieldDefinition.emitField() = "${SPACES}${SPACES}val $name: ${type.emitType()}"
 
     override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition() = "data class ${name}(\n${inputValueDefinitions.emitInputFields()}\n)\n"
     override fun List<InputValueDefinition>.emitInputFields() = joinToString(",\n") { it.emitInputField() }
     override fun InputValueDefinition.emitInputField() = "${SPACES}${SPACES}val $name: ${type.emitType()}"
-
-    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = throw NotImplementedError()
 
     override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
         "Date" -> "typealias Date = java.time.LocalDate\n"

@@ -1,0 +1,9 @@
+interface A {
+    hello: String
+
+}
+
+type B implements A{
+    hello: String,
+    world: String
+}
