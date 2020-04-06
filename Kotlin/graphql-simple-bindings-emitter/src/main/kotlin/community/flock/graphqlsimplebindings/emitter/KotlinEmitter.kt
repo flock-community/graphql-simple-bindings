@@ -23,6 +23,7 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
 
     override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
         "Date" -> "typealias Date = java.time.LocalDate\n"
+        "DateTime" -> "typealias DateTime = java.time.LocalDateTime\n"
         else -> throw ScalarTypeDefinitionEmitterException(this)
     }
 
