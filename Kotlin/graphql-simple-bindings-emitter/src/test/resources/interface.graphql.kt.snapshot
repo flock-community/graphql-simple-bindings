@@ -1,10 +1,15 @@
 package community.flock.graphqlsimplebindings.generated
 
-interface A(
-      val hello: String?
-)
+interface A{
+        val hello1: String?
+}
 
-data class B(
-        val hello: String?
+interface B{
+        val hello2: String?
+}
+
+data class C(
+        override val hello1: String?,
+        val hello2: String?,
         val world: String?
 ):A
