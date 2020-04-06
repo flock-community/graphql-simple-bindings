@@ -6,7 +6,7 @@ Kotlin and Typescript bindings based on GraphQL schemas
 
 ### Getting started
 
-Add het configuration to your maven pom.xml
+Add the configuration to your maven pom.xml
 
 ```xml
 <project>
