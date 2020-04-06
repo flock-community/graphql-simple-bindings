@@ -34,6 +34,9 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     override fun nullableListOf(type: Type<Type<*>>): String = nonNullableListOf(type).toNullable()
     override fun nonNullableListOf(type: Type<Type<*>>): String = "List<${type.emitType()}>"
     override fun String.toNullable(): String = "${toNonNullable()}?"
-    override fun String.toNonNullable(): String = this
+    override fun String.toNonNullable(): String = when{
+        this == "ID" -> "String"
+        else -> this
+    }
 
 }
