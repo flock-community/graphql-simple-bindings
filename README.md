@@ -1,12 +1,12 @@
 # GraphQL-Simple-Bindings
 
-Kotlin and Typescript bindings based on GraphQL schemas
+Generate kotlin and typescript bindings based on GraphQL schemas
 
 ## Kotlin
 
 ### Getting started
 
-Add het configuration to your maven pom.xml
+Add the following configuration to your maven pom.xml
 
 ```xml
 <project>
@@ -47,12 +47,14 @@ Add het configuration to your maven pom.xml
 </project>
 ```
 
+## Run in Docker
 ```
 make build-kt
 make run-kt
 ```
 In container:
 ```
+cd ./Kotlin
 ./test.sh
 ```
 ## TypeScript
