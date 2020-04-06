@@ -1,13 +1,52 @@
 # GraphQL-Simple-Bindings
 
-## FE to BE bindings based on GraphQL schemas
+Kotlin and Typescript bindings based on GraphQL schemas
 
-###
-Maven Plugin:
+## Kotlin
 
-[ ![Download](https://api.bintray.com/packages/flock-community/flock-maven/graphql-simple-bindings-maven-plugin/images/download.svg?version=0.0.1) ](https://bintray.com/flock-community/flock-maven/graphql-simple-bindings-maven-plugin/0.0.1/link)
+### Getting started
 
-### Kotlin
+Add het configuration to your maven pom.xml
+
+```xml
+<project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>community.flock</groupId>
+                <artifactId>graphql-simple-bindings-maven-plugin</artifactId>
+                <version>0.2.0</version>
+                <configuration>
+                    <language>All</language>
+                    <packageName>community.flock.eco.feature.member.graphql</packageName>
+                    <sourceDirectory>${project.basedir}/src/main/graphql</sourceDirectory>
+                    <targetDirectory>${project.build.directory}/generated-sources/graphql</targetDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    ...
+    <repositories>
+        <repository>
+            <id>bintray-flock-community</id>
+            <name>bintray</name>
+            <url>https://api.bintray.com/maven/flock-community/flock-maven</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
+```
+
 ```
 make build-kt
 make run-kt
@@ -16,7 +55,7 @@ In container:
 ```
 ./test.sh
 ```
-### TypeScript
+## TypeScript
 ```
 make build-ts
 make run-ts
