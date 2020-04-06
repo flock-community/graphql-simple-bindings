@@ -4,7 +4,7 @@ import graphql.language.*
 
 internal interface DefinitionEmitter {
 
-    fun ObjectTypeDefinition.emitObjectTypeDefinition(): String
+    fun ObjectTypeDefinition.emitObjectTypeDefinition(document: Document): String
 
     fun ScalarTypeDefinition.emitScalarTypeDefinition(): String?
 

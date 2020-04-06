@@ -1,14 +1,14 @@
-interface Acount  {
+interface Account  {
   id: ID!
   lastLogin: DateTime!
 }
 
-type AcountPassword  implements Acount{
+type AccountPassword  implements Account{
   id: ID!
   lastLogin: DateTime!
 }
 
-type AcountKey implements Acount {
+type AccountKey implements Account {
   id: ID!
   lastLogin: DateTime!
   key: String!

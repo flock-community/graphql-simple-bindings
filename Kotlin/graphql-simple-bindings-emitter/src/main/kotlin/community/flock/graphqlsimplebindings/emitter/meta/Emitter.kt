@@ -8,11 +8,11 @@ import graphql.schema.idl.TypeInfo
 abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter, InterfaceEmitter, FieldDefinitionEmitter, TypeEmitter {
 
     open fun emitDocument(document: Document): String = document.definitions
-            .mapNotNull { it.emitDefinition() }
+            .mapNotNull { it.emitDefinition(document) }
             .joinToString("\n")
 
-    private fun Definition<Definition<*>>.emitDefinition() = when (this) {
-        is ObjectTypeDefinition -> emitObjectTypeDefinition()
+    private fun Definition<Definition<*>>.emitDefinition(document: Document) = when (this) {
+        is ObjectTypeDefinition -> emitObjectTypeDefinition(document)
         is ScalarTypeDefinition -> emitScalarTypeDefinition()
         is InputObjectTypeDefinition -> emitInputObjectTypeDefinition()
         is EnumTypeDefinition -> emitEnumTypeDefinition()
