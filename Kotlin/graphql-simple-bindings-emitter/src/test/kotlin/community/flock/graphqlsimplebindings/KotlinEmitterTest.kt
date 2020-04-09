@@ -19,6 +19,9 @@ internal class KotlinEmitterTest {
     @Test
     fun testInputTypes() = run("input")
 
+    @Test
+    fun testInterfaceTypes() = run("interface")
+
     private fun run(name:String){
         val schemaFile = javaClass.classLoader.getResource("$name.graphql")
         val snapshotFile = javaClass.classLoader.getResource("$name.graphql.kt.snapshot")

@@ -1,0 +1,14 @@
+interface A {
+    hello1: String
+
+}
+
+interface B {
+    hello2: String
+}
+
+type C implements A{
+    hello1: String,
+    hello2: String,
+    world: String
+}

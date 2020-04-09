@@ -1,3 +1,4 @@
 type Product {
     title: String
+    stock: Int
 }
