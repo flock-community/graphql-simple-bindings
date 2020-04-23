@@ -6,7 +6,9 @@ import graphql.language.*
 
 const val SPACES = "    "
 
-class KotlinEmitter(private val packageName: String = "community.flock.graphqlsimplebindings.generated") : Emitter() {
+class KotlinEmitter(
+        private val packageName: String = "community.flock.graphqlsimplebindings.generated",
+        private val scalars: Map<String,String> = mapOf()) : Emitter() {
 
 
 
@@ -42,9 +44,10 @@ class KotlinEmitter(private val packageName: String = "community.flock.graphqlsi
     override fun List<InputValueDefinition>.emitInputFields() = joinToString(",\n") { SPACES + SPACES + it.emitInputField() }
     override fun InputValueDefinition.emitInputField() = "val $name: ${type.emitType()}"
 
-    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
-        "Date" -> "typealias Date = java.time.LocalDate\n"
-        "DateTime" -> "typealias DateTime = java.time.LocalDateTime\n"
+    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when {
+        "Date" == name -> "typealias Date = java.time.LocalDate\n"
+        "DateTime"  == name -> "typealias DateTime = java.time.LocalDateTime\n"
+        scalars.contains(this.name) -> "typealias $name = ${scalars.getValue(name)}\n"
         else -> throw ScalarTypeDefinitionEmitterException(this)
     }
 

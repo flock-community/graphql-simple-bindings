@@ -53,6 +53,9 @@
                     <packageName>community.flock.graphqlsimplebindings.generated</packageName>
                     <sourceDirectory>${graphql.source}</sourceDirectory>
                     <targetDirectory>${graphql-simple-bindings.target}</targetDirectory>
+                    <scalars>
+                        <KeyValue>Map&lt;String, String&gt;</KeyValue>
+                    </scalars>
                 </configuration>
                 <executions>
                     <execution>

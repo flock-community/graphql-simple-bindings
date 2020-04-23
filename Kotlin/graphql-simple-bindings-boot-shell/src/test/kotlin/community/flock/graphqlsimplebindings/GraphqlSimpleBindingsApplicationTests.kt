@@ -27,7 +27,7 @@ class GraphqlSimpleBindingsApplicationTests {
     fun `Kotlin Emitter`() = input emittedWith KotlinEmitter() writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter writtenTo "appFromKt.ts".file
+    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter() writtenTo "appFromKt.ts".file
 
     private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
 

@@ -16,7 +16,8 @@ class RootEndpoint {
                     id = "0",
                     firstName = "Ernie",
                     lastName = "Sesamstraat",
-                    type = Type.A
+                    type = Type.A,
+                    keyValues = listOf(mapOf())
             ),
             accounts = listOf(
                     AccountPassword(

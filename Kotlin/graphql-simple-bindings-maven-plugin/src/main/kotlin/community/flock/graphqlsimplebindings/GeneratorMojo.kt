@@ -27,10 +27,18 @@ class GeneratorMojo : AbstractMojo() {
     @Parameter
     private var packageName: String? = null
 
+    @Parameter
+    private var scalars: Map<String, String> = mapOf()
+
     @Parameter(defaultValue = "\${project}", readonly = true, required = true)
     private lateinit var project: MavenProject
 
     override fun execute() {
+
+        println("scalars")
+        println("${scalars.size}")
+        println(scalars.entries.forEach{ println("${it.key} ${it.value}")})
+        println("scalars")
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
                 .map { Pair(it.name.split(".")[0], it.bufferedReader(Charsets.UTF_8)) }
@@ -50,9 +58,9 @@ class GeneratorMojo : AbstractMojo() {
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
-            ?.let { KotlinGenerator(targetDirectory, it).generate(this) }
+            ?.let { KotlinGenerator(targetDirectory, it, scalars).generate(this) }
             ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
-    private fun List<Pair<FileName, Document>>.generateTypeScript() = TypeScriptGenerator(targetDirectory, project.version).generate(this)
+    private fun List<Pair<FileName, Document>>.generateTypeScript() = TypeScriptGenerator(targetDirectory, project.version, scalars).generate(this)
 
 }
