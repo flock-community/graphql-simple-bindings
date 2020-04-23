@@ -35,10 +35,6 @@ class GeneratorMojo : AbstractMojo() {
 
     override fun execute() {
 
-        println("scalars")
-        println("${scalars.size}")
-        println(scalars.entries.forEach{ println("${it.key} ${it.value}")})
-        println("scalars")
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
                 .map { Pair(it.name.split(".")[0], it.bufferedReader(Charsets.UTF_8)) }
