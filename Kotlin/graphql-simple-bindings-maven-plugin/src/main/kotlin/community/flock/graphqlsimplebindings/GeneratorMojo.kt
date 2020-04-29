@@ -34,7 +34,6 @@ class GeneratorMojo : AbstractMojo() {
     private lateinit var project: MavenProject
 
     override fun execute() {
-
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
                 .map { Pair(it.name.split(".")[0], it.bufferedReader(Charsets.UTF_8)) }
