@@ -5,7 +5,7 @@
     <parent>
         <groupId>community.flock</groupId>
         <artifactId>graphql-simple-bindings</artifactId>
-        <version>0.3.0</version>
+        <version>0.6.0</version>
     </parent>
 
     <artifactId>graphql-simple-bindings-boot-shell</artifactId>
@@ -53,6 +53,9 @@
                     <packageName>community.flock.graphqlsimplebindings.generated</packageName>
                     <sourceDirectory>${graphql.source}</sourceDirectory>
                     <targetDirectory>${graphql-simple-bindings.target}</targetDirectory>
+                    <scalars>
+                        <KeyValue>Map&lt;String, String&gt;</KeyValue>
+                    </scalars>
                 </configuration>
                 <executions>
                     <execution>

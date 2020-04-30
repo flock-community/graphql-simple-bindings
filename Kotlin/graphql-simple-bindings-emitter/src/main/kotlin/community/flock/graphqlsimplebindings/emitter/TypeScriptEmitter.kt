@@ -4,7 +4,7 @@ import community.flock.graphqlsimplebindings.emitter.meta.Emitter
 import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
 import graphql.language.*
 
-object TypeScriptEmitter : Emitter() {
+class TypeScriptEmitter(private val scalars:Map<String,String> = mapOf()) : Emitter() {
 
     override fun ObjectTypeDefinition.emitObjectTypeDefinition(document: Document) = "export interface $name {\n${emitFields(document)};\n}\n"
 
@@ -19,9 +19,10 @@ object TypeScriptEmitter : Emitter() {
     override fun InterfaceTypeDefinition.emitFields() = throw NotImplementedError()
     override fun FieldDefinition.emitField() = throw NotImplementedError()
 
-    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when (name) {
-        "Date" -> null
-        "DateTime" -> null
+    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when  {
+        "Date" == name -> null
+        "DateTime" == name -> null
+        scalars.contains(this.name) -> ""
         else -> throw ScalarTypeDefinitionEmitterException(this)
     }
 

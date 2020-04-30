@@ -3,4 +3,7 @@ type User  {
   firstName: String!
   lastName: String!
   type: Type
+  keyValues: [KeyValue]
 }
+
+scalar KeyValue

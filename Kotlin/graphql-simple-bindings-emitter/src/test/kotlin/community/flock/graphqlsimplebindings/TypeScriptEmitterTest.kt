@@ -26,7 +26,7 @@ internal class TypeScriptEmitterTest {
         val targetReader: Reader = FileReader(schemaFile.file)
         val schema = Parser.parseSchema(targetReader)
 
-        val res = TypeScriptEmitter.emitDocument(schema)
+        val res = TypeScriptEmitter().emitDocument(schema)
 
         assertEquals(snapshotFile.readText(), res)
     }
