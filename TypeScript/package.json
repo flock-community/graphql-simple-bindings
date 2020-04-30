@@ -1,9 +1,10 @@
 {
-  "name": "@flock/graphql-to-rest",
-  "version": "1.0.0",
+  "name": "@flock/graphql-simple-bindings",
+  "version": "0.0.1",
   "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {
+    "compile": "tsc",
     "test": "jest"
   },
   "author": "Kasper Peulen",
@@ -34,7 +35,11 @@
     "printWidth": 120,
     "tabWidth": 2
   },
+  "bin": {
+    "graphql-simple-bindings": "./bin/index.js"
+  },
   "dependencies": {
-    "@flock-eco/feature-user": "^1.4.7"
+    "glob": "^7.1.6",
+    "mkdirp": "^1.0.4"
   }
 }
