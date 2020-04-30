@@ -1,10 +1,13 @@
 # GraphQL-Simple-Bindings
 
-Generate kotlin and typescript bindings based on GraphQL schemas
+Parse a graphql schema and generate simple bindings for:
+- Typescript
+- Kotlin
 
-## Kotlin
 
-### Getting started
+## Getting started
+
+### Maven
 
 Add the following configuration to your maven pom.xml
 
@@ -45,6 +48,12 @@ Add the following configuration to your maven pom.xml
     </repositories>
 
 </project>
+```
+
+### Node
+```
+npm i @flock/graphql-simple-bindings -g
+graphql-simple-bindings "./example/checkout/*" "./generated"
 ```
 
 ## Run in Docker

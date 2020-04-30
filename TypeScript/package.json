@@ -1,6 +1,6 @@
 {
   "name": "@flock/graphql-simple-bindings",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {
@@ -9,23 +9,23 @@
   },
   "author": "Kasper Peulen",
   "license": "MIT",
-  "repository": "https://github.com/flock-community/GraphQL-to-REST",
+  "repository": "https://github.com/flock-community/graphql-simple-bindings",
   "devDependencies": {
-    "graphql": "^14.5.4",
-    "@types/node": "^12.7.3",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-typescript": "^7.9.0",
     "@types/common-tags": "^1.8.0",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.13.4",
+    "@types/prettier": "^1.19.1",
+    "babel-jest": "^25.5.1",
     "common-tags": "^1.8.0",
-    "prettier": "^1.18.2",
-    "@types/prettier": "^1.18.2",
-    "typescript": "^3.6.2",
-    "graphql-config": "^2.2.1",
-    "graphql-import": "^0.7.1",
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/preset-typescript": "^7.6.0",
-    "@types/jest": "^24.0.18",
-    "babel-jest": "^24.9.0",
-    "jest": "^24.9.0"
+    "graphql": "^15.0.0",
+    "graphql-config": "^3.0.1",
+    "graphql-import": "^1.0.2",
+    "jest": "^25.5.2",
+    "prettier": "^1.19.1",
+    "typescript": "^3.8.3"
   },
   "prettier": {
     "bracketSpacing": true,
@@ -41,5 +41,8 @@
   "dependencies": {
     "glob": "^7.1.6",
     "mkdirp": "^1.0.4"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
