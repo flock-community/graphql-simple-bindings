@@ -12,7 +12,7 @@
     </parent>
     <groupId>community.flock</groupId>
     <artifactId>graphql-simple-bindings</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
     <name>graphql-simple-bindings</name>
     <description>Generate Kotlin data classes and TypeScript interfaces from GraphQL schema's</description>
 
