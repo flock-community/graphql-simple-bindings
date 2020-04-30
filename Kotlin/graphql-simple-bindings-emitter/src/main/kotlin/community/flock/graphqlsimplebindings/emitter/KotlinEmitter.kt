@@ -10,15 +10,21 @@ class KotlinEmitter(
         private val packageName: String = "community.flock.graphqlsimplebindings.generated",
         private val scalars: Map<String, String> = mapOf()) : Emitter() {
 
-
     override fun emitDocument(document: Document): String = super.emitDocument(document)
-            .let { "package $packageName\n\n$it" }
+            .let { "package $packageName\n\n${emitImports()}\n\n$it" }
 
     override fun ObjectTypeDefinition.emitObjectTypeDefinition(document: Document) = if (fieldDefinitions.size > 0) {
         "data class $name(\n${emitFields(document)}\n)${emitInterfaces()}\n"
     } else {
         ""
     }
+
+    private fun emitImports(): String = scalars
+            .entries
+            .map{it.value}
+            .filter { it.contains('.')}
+            .map { "import $it" }
+            .joinToString ( "\n" )
 
     private fun ObjectTypeDefinition.emitInterfaces(): String? = if (implements.isNotEmpty()) {
         ":" + (implements as List<TypeName>).joinToString(",") { it.name }
