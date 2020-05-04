@@ -1,1 +1,1 @@
-mvn test -DexampleDirectory="$(pwd)/../example"
+mvn clean install -DexampleDirectory="$(pwd)/../example"

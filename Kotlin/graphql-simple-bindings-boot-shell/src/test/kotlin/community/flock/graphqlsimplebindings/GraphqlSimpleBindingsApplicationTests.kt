@@ -3,7 +3,7 @@ package community.flock.graphqlsimplebindings
 import community.flock.graphqlsimplebindings.parser.Parser
 import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
 import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
-import community.flock.graphqlsimplebindings.emitter.meta.Emitter
+import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import graphql.language.Document
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,15 +19,17 @@ class GraphqlSimpleBindingsApplicationTests {
     @Value("\${exampleDirectory:#{null}}")
     var examples: String? = null
 
+    val scalars: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+
     private val input = GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
             .readText()
             .let { Parser.parseSchema(it) }
 
     @Test
-    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter() writtenTo "App.kt".file
+    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalars) writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter() writtenTo "appFromKt.ts".file
+    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter(scalars = scalars) writtenTo "appFromKt.ts".file
 
     private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
 

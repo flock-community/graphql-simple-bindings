@@ -8,11 +8,4 @@ class TypeEmitterException(type: Type<Type<*>>) : EmitterException("New type? ->
 
 class DefinitionEmitterException(definition: Definition<Definition<*>>) : EmitterException("New definition? -> $definition")
 
-class ScalarTypeDefinitionEmitterException(scalar: ScalarTypeDefinition) : EmitterException("New scalar? -> ${scalar.name}")
-
-class InputObjectTypeDefinitionEmitterException(inputObject: InputObjectTypeDefinition) : EmitterException("New inputObject? -> $inputObject")
-
-class EnumTypeDefinitionEmitterException(enum: EnumTypeDefinition) : EmitterException("New enum? -> $enum")
-class EnumValueDefinitionEmitterException(enum: EnumValueDefinition) : EmitterException("New enum? -> $enum")
-
-class InterfaceTypeDefinitionEmitterException(interfaceType: InterfaceTypeDefinition) : EmitterException("New interface? -> $interfaceType")
+class ScalarTypeDefinitionEmitterException(scalar: ScalarTypeDefinition, language: String) : EmitterException("New scalar for $language? -> ${scalar.name}")

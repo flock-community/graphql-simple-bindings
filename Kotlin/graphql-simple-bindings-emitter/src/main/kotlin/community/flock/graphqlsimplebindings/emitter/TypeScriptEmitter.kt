@@ -1,34 +1,27 @@
 package community.flock.graphqlsimplebindings.emitter
 
-import community.flock.graphqlsimplebindings.emitter.meta.Emitter
+import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
 import graphql.language.*
 
-class TypeScriptEmitter(private val scalars:Map<String,String> = mapOf()) : Emitter() {
+class TypeScriptEmitter(private val scalars: Map<String, String> = mapOf()) : Emitter() {
 
-    override fun ObjectTypeDefinition.emitObjectTypeDefinition(document: Document) = "export interface $name {\n${emitFields(document)};\n}\n"
+    override fun ObjectTypeDefinition.emit(document: Document) = "export interface $name {\n${fieldDefinitions.joinToString(";\n") { it.emit() }};\n}\n"
 
-    override fun ObjectTypeDefinition.emitFields(document: Document) = fieldDefinitions.joinToString(";\n") { it.emitDefinitionField() }
-    override fun FieldDefinition.emitDefinitionField() = "  $name${type.emitType()}"
+    override fun FieldDefinition.emit() = "$SPACES$name${type.emitType()}"
 
-    override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition() = "export interface $name {\n${inputValueDefinitions.emitInputFields()};\n}\n"
-    override fun List<InputValueDefinition>.emitInputFields() = joinToString(";\n") { it.emitInputField() }
-    override fun InputValueDefinition.emitInputField() = "  $name${type.emitType()}"
+    override fun InputObjectTypeDefinition.emit() = "export interface $name {\n${inputValueDefinitions.joinToString(";\n") { it.emit() }};\n}\n"
+    override fun InputValueDefinition.emit() = "$SPACES$name${type.emitType()}"
 
-    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = "// Not implemented: $name"
-    override fun InterfaceTypeDefinition.emitFields() = throw NotImplementedError()
-    override fun FieldDefinition.emitField() = throw NotImplementedError()
+    override fun InterfaceTypeDefinition.emit() = "// Not implemented: $name"
 
-    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when  {
-        "Date" == name -> null
-        "DateTime" == name -> null
-        scalars.contains(this.name) -> ""
-        else -> throw ScalarTypeDefinitionEmitterException(this)
+    override fun ScalarTypeDefinition.emit(): String? = when {
+        scalars.contains(name) -> if (name == scalars.getValue(name)) null else "type $name = ${scalars.getValue(name)}\n"
+        else -> throw ScalarTypeDefinitionEmitterException(this, "TypeScript")
     }
 
-    override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = "export enum $name {\n${enumValueDefinitions.emitEnumFields()}\n}\n"
-    override fun List<EnumValueDefinition>.emitEnumFields() = joinToString(",\n") { it.emitEnumField() }
-    override fun EnumValueDefinition.emitEnumField() = "\t$name"
+    override fun EnumTypeDefinition.emit(): String = "export enum $name {\n$SPACES${enumValueDefinitions.joinToString(", ") { it.emit() }}\n}\n"
+    override fun EnumValueDefinition.emit(): String = name
 
     override fun nullableListOf(type: Type<Type<*>>): String = "?${nonNullableListOf(type)}"
     override fun nonNullableListOf(type: Type<Type<*>>): String = ": ${type.value.emit()}[]"
@@ -42,6 +35,10 @@ class TypeScriptEmitter(private val scalars:Map<String,String> = mapOf()) : Emit
         "Boolean" -> "boolean"
         "ID" -> "string"
         else -> this
+    }
+
+    companion object {
+        const val SPACES = "    "
     }
 
 }

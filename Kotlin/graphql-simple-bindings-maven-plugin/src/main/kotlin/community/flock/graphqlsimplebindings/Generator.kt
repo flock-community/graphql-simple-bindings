@@ -1,6 +1,6 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.emitter.meta.Emitter
+import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import graphql.language.Document
 import java.io.File
 

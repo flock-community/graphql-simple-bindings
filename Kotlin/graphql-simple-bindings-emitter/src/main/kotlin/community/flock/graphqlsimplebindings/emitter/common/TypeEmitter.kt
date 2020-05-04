@@ -1,4 +1,4 @@
-package community.flock.graphqlsimplebindings.emitter.meta
+package community.flock.graphqlsimplebindings.emitter.common
 
 import graphql.language.Type
 

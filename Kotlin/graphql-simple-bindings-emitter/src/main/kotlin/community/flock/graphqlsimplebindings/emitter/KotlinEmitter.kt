@@ -1,30 +1,51 @@
 package community.flock.graphqlsimplebindings.emitter
 
-import community.flock.graphqlsimplebindings.emitter.meta.Emitter
+import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
 import graphql.language.*
 
-const val SPACES = "    "
 
 class KotlinEmitter(
         private val packageName: String = "community.flock.graphqlsimplebindings.generated",
-        private val scalars: Map<String, String> = mapOf()) : Emitter() {
+        private val scalars: Map<String, String> = mapOf()
+) : Emitter() {
 
     override fun emitDocument(document: Document): String = super.emitDocument(document)
-            .let { "package $packageName\n\n${emitImports()}\n\n$it" }
+            .let { "package $packageName\n\n$it" }
 
-    override fun ObjectTypeDefinition.emitObjectTypeDefinition(document: Document) = if (fieldDefinitions.size > 0) {
-        "data class $name(\n${emitFields(document)}\n)${emitInterfaces()}\n"
+    override fun ObjectTypeDefinition.emit(document: Document) = if (fieldDefinitions.size > 0) {
+        "data class $name(\n${fieldDefinitions.joinToString(",\n") { SPACES + SPACES + it.emitOverwrite(this, document) + it.emit() }}\n)${emitInterfaces()}\n"
     } else {
         ""
     }
 
-    private fun emitImports(): String = scalars
-            .entries
-            .map{it.value}
-            .filter { it.contains('.')}
-            .map { "import $it" }
-            .joinToString ( "\n" )
+    override fun FieldDefinition.emit() = "val $name: ${type.emitType()}"
+
+    override fun InterfaceTypeDefinition.emit() = "interface ${name}{\n${fieldDefinitions.joinToString("\n") { SPACES + SPACES + it.emit() }}\n}\n"
+
+    override fun InputObjectTypeDefinition.emit() = if (inputValueDefinitions.size > 0) {
+        "data class ${name}(\n${inputValueDefinitions.joinToString(",\n") { SPACES + SPACES + it.emit() }}\n)\n"
+    } else {
+        ""
+    }
+
+    override fun InputValueDefinition.emit() = "val $name: ${type.emitType()}"
+
+    override fun ScalarTypeDefinition.emit(): String? = when {
+        scalars.contains(name) -> "typealias $name = ${scalars.getValue(name)}\n"
+        else -> throw ScalarTypeDefinitionEmitterException(this, "Kotlin")
+    }
+
+    override fun EnumTypeDefinition.emit(): String = "enum class $name{\n$SPACES${enumValueDefinitions.joinToString(", ") { it.emit() }}\n}\n"
+    override fun EnumValueDefinition.emit(): String = name
+
+    override fun nullableListOf(type: Type<Type<*>>): String = nonNullableListOf(type).toNullable()
+    override fun nonNullableListOf(type: Type<Type<*>>): String = "List<${type.emitType()}>"
+    override fun String.toNullable(): String = "${toNonNullable()}?"
+    override fun String.toNonNullable(): String = when (this) {
+        "ID" -> "String"
+        else -> this
+    }
 
     private fun ObjectTypeDefinition.emitInterfaces(): String? = if (implements.isNotEmpty()) {
         ":" + (implements as List<TypeName>).joinToString(",") { it.name }
@@ -32,7 +53,6 @@ class KotlinEmitter(
         ""
     }
 
-    override fun ObjectTypeDefinition.emitFields(document: Document) = fieldDefinitions.joinToString(",\n") { SPACES + SPACES + it.emitOverwrite(this, document) + it.emitDefinitionField() }
     private fun FieldDefinition.emitOverwrite(definition: ObjectTypeDefinition, document: Document) = document.definitions
             .filterIsInstance(InterfaceTypeDefinition::class.java)
             .filter {
@@ -45,38 +65,8 @@ class KotlinEmitter(
             .any()
             .let { if (it) "override " else "" }
 
-    override fun FieldDefinition.emitDefinitionField() = "val $name: ${type.emitType()}"
-
-    override fun InterfaceTypeDefinition.emitInterfaceTypeDefinition() = "interface ${name}{\n${emitFields()}\n}\n"
-    override fun InterfaceTypeDefinition.emitFields() = fieldDefinitions.joinToString("\n") { SPACES + SPACES + it.emitField() }
-    override fun FieldDefinition.emitField() = "val $name: ${type.emitType()}"
-
-    override fun InputObjectTypeDefinition.emitInputObjectTypeDefinition() = if (inputValueDefinitions.size > 0) {
-        "data class ${name}(\n${inputValueDefinitions.emitInputFields()}\n)\n"
-    } else {
-        ""
-    }
-
-    override fun List<InputValueDefinition>.emitInputFields() = joinToString(",\n") { SPACES + SPACES + it.emitInputField() }
-    override fun InputValueDefinition.emitInputField() = "val $name: ${type.emitType()}"
-
-    override fun ScalarTypeDefinition.emitScalarTypeDefinition(): String? = when {
-        "Date" == name -> "typealias Date = java.time.LocalDate\n"
-        "DateTime" == name -> "typealias DateTime = java.time.LocalDateTime\n"
-        scalars.contains(this.name) -> "typealias $name = ${scalars.getValue(name)}\n"
-        else -> throw ScalarTypeDefinitionEmitterException(this)
-    }
-
-    override fun EnumTypeDefinition.emitEnumTypeDefinition(): String = "enum class $name{\n${enumValueDefinitions.emitEnumFields()}\n}\n"
-    override fun List<EnumValueDefinition>.emitEnumFields() = joinToString(",\n") { SPACES + it.emitEnumField() }
-    override fun EnumValueDefinition.emitEnumField() = name
-
-    override fun nullableListOf(type: Type<Type<*>>): String = nonNullableListOf(type).toNullable()
-    override fun nonNullableListOf(type: Type<Type<*>>): String = "List<${type.emitType()}>"
-    override fun String.toNullable(): String = "${toNonNullable()}?"
-    override fun String.toNonNullable(): String = when (this) {
-        "ID" -> "String"
-        else -> this
+    companion object {
+        const val SPACES = "    "
     }
 
 }

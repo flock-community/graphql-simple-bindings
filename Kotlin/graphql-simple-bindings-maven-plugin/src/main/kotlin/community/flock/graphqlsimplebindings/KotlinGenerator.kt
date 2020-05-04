@@ -5,7 +5,8 @@ import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
 class KotlinGenerator(
         targetDirectory: String,
         packageName: String,
-        scalars: Map<String,String> = mapOf()) : Generator(
+        scalars: Map<String, String>
+) : Generator(
         languageDirectory = "$targetDirectory/Kotlin",
         pathTemplate = { languageDirectory -> { fileName -> "$languageDirectory/${fileName.capitalize()}.kt" } },
         emitter = KotlinEmitter(packageName, scalars),

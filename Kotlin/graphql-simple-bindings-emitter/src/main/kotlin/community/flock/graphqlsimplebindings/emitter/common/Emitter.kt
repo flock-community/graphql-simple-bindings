@@ -1,4 +1,4 @@
-package community.flock.graphqlsimplebindings.emitter.meta
+package community.flock.graphqlsimplebindings.emitter.common
 
 import community.flock.graphqlsimplebindings.exceptions.DefinitionEmitterException
 import community.flock.graphqlsimplebindings.exceptions.TypeEmitterException
@@ -12,11 +12,11 @@ abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter, Interface
             .joinToString("\n")
 
     private fun Definition<Definition<*>>.emitDefinition(document: Document) = when (this) {
-        is ObjectTypeDefinition -> emitObjectTypeDefinition(document)
-        is ScalarTypeDefinition -> emitScalarTypeDefinition()
-        is InputObjectTypeDefinition -> emitInputObjectTypeDefinition()
-        is EnumTypeDefinition -> emitEnumTypeDefinition()
-        is InterfaceTypeDefinition -> emitInterfaceTypeDefinition()
+        is ObjectTypeDefinition -> emit(document)
+        is ScalarTypeDefinition -> emit()
+        is InputObjectTypeDefinition -> emit()
+        is EnumTypeDefinition -> emit()
+        is InterfaceTypeDefinition -> emit()
         else -> throw DefinitionEmitterException(this)
     }
 

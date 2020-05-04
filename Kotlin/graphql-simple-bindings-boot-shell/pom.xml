@@ -5,7 +5,7 @@
     <parent>
         <groupId>community.flock</groupId>
         <artifactId>graphql-simple-bindings</artifactId>
-        <version>0.6.0</version>
+        <version>0.6.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>graphql-simple-bindings-boot-shell</artifactId>
@@ -53,9 +53,16 @@
                     <packageName>community.flock.graphqlsimplebindings.generated</packageName>
                     <sourceDirectory>${graphql.source}</sourceDirectory>
                     <targetDirectory>${graphql-simple-bindings.target}</targetDirectory>
-                    <scalars>
+                    <scalarsKotlin>
+                        <Date>java.time.LocalDate</Date>
+                        <DateTime>java.time.LocalDateTime</DateTime>
                         <KeyValue>Map&lt;String, String&gt;</KeyValue>
-                    </scalars>
+                    </scalarsKotlin>
+                    <scalarsTypeScript>
+                        <Date>Date</Date>
+                        <DateTime>Date</DateTime>
+                        <KeyValue>{ key: string, value: string }</KeyValue>
+                    </scalarsTypeScript>
                 </configuration>
                 <executions>
                     <execution>
