@@ -17,9 +17,9 @@
     <description>Generate Kotlin data classes and TypeScript interfaces from GraphQL schema's</description>
 
     <modules>
-        <module>graphql-simple-bindings-boot-shell</module>
-        <module>graphql-simple-bindings-maven-plugin</module>
         <module>graphql-simple-bindings-emitter</module>
+        <module>graphql-simple-bindings-maven-plugin</module>
+        <module>graphql-simple-bindings-boot-shell</module>
     </modules>
 
     <properties>

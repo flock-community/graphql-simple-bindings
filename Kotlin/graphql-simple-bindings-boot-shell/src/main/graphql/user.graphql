@@ -1,9 +1,9 @@
 type User  {
-  id: String!
-  firstName: String!
-  lastName: String!
-  type: Type
-  keyValues: [KeyValue]
+    id: String!
+    firstName: String!
+    lastName: String!
+    type: Type
+    keyValues: [KeyValue]
 }
 
 scalar KeyValue
