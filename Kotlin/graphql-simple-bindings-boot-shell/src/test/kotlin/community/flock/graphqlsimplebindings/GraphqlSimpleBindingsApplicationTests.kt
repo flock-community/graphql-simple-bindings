@@ -19,17 +19,19 @@ class GraphqlSimpleBindingsApplicationTests {
     @Value("\${exampleDirectory:#{null}}")
     var examples: String? = null
 
-    val scalars: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+    private val scalarsKotlin: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+
+    private val scalarsTypeScript: Map<String, String> = mapOf("Date" to "Date")
 
     private val input = GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
             .readText()
             .let { Parser.parseSchema(it) }
 
     @Test
-    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalars) writtenTo "App.kt".file
+    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalarsKotlin) writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter(scalars = scalars) writtenTo "appFromKt.ts".file
+    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter(scalars = scalarsTypeScript) writtenTo "appFromKt.ts".file
 
     private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
 
