@@ -1,6 +1,6 @@
 {
   "name": "@flock/graphql-simple-bindings",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {
@@ -20,9 +20,6 @@
     "@types/prettier": "^1.19.1",
     "babel-jest": "^25.5.1",
     "common-tags": "^1.8.0",
-    "graphql": "^15.0.0",
-    "graphql-config": "^3.0.1",
-    "graphql-import": "^1.0.2",
     "jest": "^25.5.2",
     "prettier": "^1.19.1",
     "typescript": "^3.8.3"
@@ -40,7 +37,10 @@
   },
   "dependencies": {
     "glob": "^7.1.6",
-    "mkdirp": "^1.0.4"
+    "mkdirp": "^1.0.4",
+    "graphql-config": "^3.0.1",
+    "graphql-import": "^1.0.2",
+    "graphql": "^15.0.0"
   },
   "publishConfig": {
     "access": "public"
