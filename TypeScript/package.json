@@ -1,11 +1,12 @@
 {
   "name": "@flock/graphql-simple-bindings",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {
     "compile": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run compile"
   },
   "author": "Kasper Peulen",
   "license": "MIT",
