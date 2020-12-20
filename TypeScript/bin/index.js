@@ -19,7 +19,7 @@ const opts = {}
 glob(input, opts, function (er, files) {
   mkdirp.sync(output, opts)
   const res = files
-    .filter(file => file.endsWith(".graphql"))
+    .filter(file => file.endsWith(".graphql") || file.endsWith(".graphqls"))
     .map(file => {
       const base = path.basename(file)
       const schema = fs.readFileSync(file, 'utf8');
