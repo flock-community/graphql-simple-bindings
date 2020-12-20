@@ -81,6 +81,8 @@ export class TypescriptRenderer extends Renderer {
     switch (string) {
       case 'Date':
         return 'Date';
+      case 'DateTime':
+        return 'Date';
       case 'String':
         return 'string';
       case 'Int':

@@ -22,7 +22,8 @@ glob(input, opts, function (er, files) {
     .filter(file => file.endsWith(".graphql") || file.endsWith(".graphqls"))
     .map(file => {
       const base = path.basename(file)
-      const schema = fs.readFileSync(file, 'utf8');
+      const resolved = path.resolve(process.cwd(), file)
+      const schema = fs.readFileSync(resolved, 'utf8');
       const typescript = gql2ts(schema)
       const writeFile = path.resolve(output, base.replace('.graphqls', '.ts').replace('.graphql', '.ts'))
       fs.writeFileSync(writeFile, typescript)
