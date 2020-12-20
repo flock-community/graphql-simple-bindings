@@ -1,6 +1,6 @@
 {
   "name": "@flock/graphql-simple-bindings",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Parse a graphql schema and render it as typescript interfaces.",
   "main": "index.js",
   "scripts": {

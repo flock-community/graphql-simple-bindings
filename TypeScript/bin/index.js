@@ -24,7 +24,7 @@ glob(input, opts, function (er, files) {
       const base = path.basename(file)
       const schema = fs.readFileSync(file, 'utf8');
       const typescript = gql2ts(schema)
-      const writeFile = path.resolve(output, base.replace('.graphql', '.ts'))
+      const writeFile = path.resolve(output, base.replace('.graphqls', '.ts').replace('.graphql', '.ts'))
       fs.writeFileSync(writeFile, typescript)
     })
   console.log(`${res.length} files successfully generated`)
