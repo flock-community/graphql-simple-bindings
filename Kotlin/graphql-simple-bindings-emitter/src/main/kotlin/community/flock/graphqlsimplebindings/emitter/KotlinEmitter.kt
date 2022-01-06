@@ -2,34 +2,35 @@ package community.flock.graphqlsimplebindings.emitter
 
 import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
-import graphql.language.Document
-import graphql.language.EnumTypeDefinition
-import graphql.language.EnumValueDefinition
-import graphql.language.FieldDefinition
-import graphql.language.InputObjectTypeDefinition
-import graphql.language.InputValueDefinition
-import graphql.language.InterfaceTypeDefinition
-import graphql.language.ObjectTypeDefinition
-import graphql.language.ScalarTypeDefinition
-import graphql.language.Type
-import graphql.language.TypeName
+import graphql.language.*
 
 
 class KotlinEmitter(
     private val packageName: String = "community.flock.graphqlsimplebindings.generated",
-    private val scalars: Map<String, String> = mapOf()
+    private val scalars: Map<String, String> = mapOf(),
+    private val enableOpenApiAnnotations: Boolean = false
 ) : Emitter() {
 
-    override fun emitDocument(document: Document): String = super.emitDocument(document)
-        .let { "package $packageName\n\n$it" }
+    private val swaggerImport: String = when (enableOpenApiAnnotations) {
+        true -> "import io.swagger.v3.oas.annotations.media.Schema\n\n"
+        false -> ""
+    }
 
-    override fun ObjectTypeDefinition.emit(document: Document) = if (fieldDefinitions.size > 0)
+    override fun emitDocument(document: Document): String = super.emitDocument(document)
+        .let { "package $packageName\n\n$swaggerImport$it" }
+
+    override fun ObjectTypeDefinition.emit(document: Document) = if (fieldDefinitions.size > 0) {
         "data class $name(\n${
             fieldDefinitions.joinToString(",\n") {
-                SPACES + SPACES + it.emitOverwrite(this, document) + it.emit()
+                SPACES + SPACES + it.emitOverwrite(
+                    this,
+                    document
+                ) + it.emit()
             }
         }\n)${emitInterfaces()}\n"
-    else ""
+    } else {
+        ""
+    }
 
     override fun FieldDefinition.emit() = "val $name: ${type.emitType()}"
 
@@ -65,8 +66,13 @@ class KotlinEmitter(
     private fun ObjectTypeDefinition.emitInterfaces(): String =
         if (implements.isNotEmpty()) ":" + (implements as List<TypeName>).joinToString(",") { it.name } else ""
 
-    private fun FieldDefinition.emitOverwrite(definition: ObjectTypeDefinition, document: Document) =
-        document.definitions
+    private fun FieldDefinition.emitOverwrite(definition: ObjectTypeDefinition, document: Document): String {
+        val annotation = when (type is NonNullType && enableOpenApiAnnotations) {
+            true -> "@field:Schema(required = true) "
+            false -> ""
+        }
+
+        return document.definitions
             .filterIsInstance(InterfaceTypeDefinition::class.java)
             .filter {
                 definition.implements
@@ -74,11 +80,12 @@ class KotlinEmitter(
                     .contains(it.name)
             }
             .flatMap { it.fieldDefinitions }
-            .any { it.name == this.name }
-            .let { if (it) "override " else "" }
+            .filter { it.name == this.name }
+            .any()
+            .let { if (it) "${annotation}override " else "$annotation" }
+    }
 
     companion object {
         const val SPACES = "    "
     }
-
 }
