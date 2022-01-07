@@ -2,14 +2,25 @@ package community.flock.graphqlsimplebindings.emitter.common
 
 import community.flock.graphqlsimplebindings.exceptions.DefinitionEmitterException
 import community.flock.graphqlsimplebindings.exceptions.TypeEmitterException
-import graphql.language.*
+import graphql.language.Definition
+import graphql.language.Document
+import graphql.language.EnumTypeDefinition
+import graphql.language.InputObjectTypeDefinition
+import graphql.language.InterfaceTypeDefinition
+import graphql.language.ListType
+import graphql.language.NonNullType
+import graphql.language.ObjectTypeDefinition
+import graphql.language.ScalarTypeDefinition
+import graphql.language.Type
+import graphql.language.TypeName
 import graphql.schema.idl.TypeInfo
 
-abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter, InterfaceEmitter, FieldDefinitionEmitter, TypeEmitter {
+abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter, InterfaceEmitter, FieldDefinitionEmitter,
+    TypeEmitter {
 
     open fun emitDocument(document: Document): String = document.definitions
-            .mapNotNull { it.emitDefinition(document) }
-            .joinToString("\n")
+        .mapNotNull { it.emitDefinition(document) }
+        .joinToString("\n")
 
     private fun Definition<Definition<*>>.emitDefinition(document: Document) = when (this) {
         is ObjectTypeDefinition -> emit(document)

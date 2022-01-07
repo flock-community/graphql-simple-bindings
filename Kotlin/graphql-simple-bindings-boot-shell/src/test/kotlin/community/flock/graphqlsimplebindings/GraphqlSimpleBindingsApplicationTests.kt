@@ -1,18 +1,18 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.parser.Parser
 import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
 import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
 import community.flock.graphqlsimplebindings.emitter.common.Emitter
+import community.flock.graphqlsimplebindings.parser.Parser
 import graphql.language.Document
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.File
 
-@RunWith(SpringRunner::class)
+@ExtendWith(SpringExtension::class)
 @SpringBootTest
 class GraphqlSimpleBindingsApplicationTests {
 
@@ -23,15 +23,17 @@ class GraphqlSimpleBindingsApplicationTests {
 
     private val scalarsTypeScript: Map<String, String> = mapOf("Date" to "Date")
 
-    private val input = GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
-            .readText()
-            .let { Parser.parseSchema(it) }
+    private val input = (GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
+        ?: throw RuntimeException("No /input.graphql found"))
+        .readText()
+        .let { Parser.parseSchema(it) }
 
     @Test
     fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalarsKotlin) writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter(scalars = scalarsTypeScript) writtenTo "appFromKt.ts".file
+    fun `TypeScript Emitter`() =
+        input emittedWith TypeScriptEmitter(scalars = scalarsTypeScript) writtenTo "appFromKt.ts".file
 
     private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
 

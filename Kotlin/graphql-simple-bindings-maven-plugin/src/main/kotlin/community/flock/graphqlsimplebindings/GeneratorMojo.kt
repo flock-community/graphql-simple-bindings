@@ -1,6 +1,8 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.Language.*
+import community.flock.graphqlsimplebindings.Language.All
+import community.flock.graphqlsimplebindings.Language.Kotlin
+import community.flock.graphqlsimplebindings.Language.TypeScript
 import community.flock.graphqlsimplebindings.parser.Parser
 import graphql.language.Document
 import org.apache.maven.plugin.AbstractMojo
@@ -39,9 +41,9 @@ class GeneratorMojo : AbstractMojo() {
     override fun execute() {
         File(targetDirectory).mkdirs()
         (File(sourceDirectory).listFiles() ?: arrayOf())
-                .map { Pair(it.name.split(".")[0], it.bufferedReader(Charsets.UTF_8)) }
-                .map { Pair(it.first, Parser.parseSchema(it.second)) }
-                .generate()
+            .map { it.name.split(".").first() to it.bufferedReader(Charsets.UTF_8) }
+            .map { (name, reader) -> name to Parser.parseSchema(reader) }
+            .generate()
     }
 
     private fun List<Pair<FileName, Document>>.generate() = when (language) {
@@ -56,10 +58,10 @@ class GeneratorMojo : AbstractMojo() {
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
-            ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin).generate(this) }
-            ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
+        ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin).generate(this) }
+        ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =
-            TypeScriptGenerator(targetDirectory, project.version, scalarsTypeScript).generate(this)
+        TypeScriptGenerator(targetDirectory, project.version, scalarsTypeScript).generate(this)
 
 }
