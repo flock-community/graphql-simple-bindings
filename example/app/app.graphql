@@ -1,4 +1,4 @@
-# import User from "../../TypeScript/node_modules/@flock-eco/feature-user/schema.graphql"
+# import User from "../../TypeScript/node_modules/@flock-community/flock-eco-feature-user/src/main/graphql/user.graphqls"
 # import Date from "../shared/date.graphql"
 
 type App {

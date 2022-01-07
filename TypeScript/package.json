@@ -6,6 +6,7 @@
   "scripts": {
     "compile": "tsc",
     "test": "jest",
+    "build": "npm run compile && npm test",
     "prepublishOnly": "npm run compile"
   },
   "author": "Kasper Peulen",
@@ -15,6 +16,7 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-typescript": "^7.9.0",
+    "@flock-community/flock-eco-feature-user": "^2.2.3",
     "@types/common-tags": "^1.8.0",
     "@types/jest": "^24.9.1",
     "@types/node": "^13.13.4",
@@ -37,10 +39,10 @@
   },
   "dependencies": {
     "glob": "^7.1.6",
-    "mkdirp": "^1.0.4",
+    "graphql": "^15.0.0",
     "graphql-config": "^3.0.1",
     "graphql-import": "^1.0.2",
-    "graphql": "^15.0.0",
+    "mkdirp": "^1.0.4",
     "prettier": "^1.19.1"
   },
   "publishConfig": {
