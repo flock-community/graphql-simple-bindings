@@ -23,6 +23,9 @@ class GeneratorMojo : AbstractMojo() {
     @Parameter(required = true)
     private lateinit var sourceDirectory: String
 
+    @Parameter(required = false)
+    private var enableOpenApiAnnotations: Boolean = false
+
     @Parameter(required = true)
     private lateinit var targetDirectory: String
 
@@ -58,7 +61,7 @@ class GeneratorMojo : AbstractMojo() {
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
-        ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin).generate(this) }
+        ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin, enableOpenApiAnnotations).generate(this) }
         ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =

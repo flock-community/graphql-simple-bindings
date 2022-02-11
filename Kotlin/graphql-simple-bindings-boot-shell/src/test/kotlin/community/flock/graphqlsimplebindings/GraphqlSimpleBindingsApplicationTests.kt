@@ -29,7 +29,7 @@ class GraphqlSimpleBindingsApplicationTests {
         .let { Parser.parseSchema(it) }
 
     @Test
-    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalarsKotlin) writtenTo "App.kt".file
+    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalarsKotlin, enableOpenApiAnnotations = false) writtenTo "App.kt".file
 
     @Test
     fun `TypeScript Emitter`() =
