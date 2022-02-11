@@ -2,7 +2,18 @@ package community.flock.graphqlsimplebindings.emitter
 
 import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import community.flock.graphqlsimplebindings.exceptions.ScalarTypeDefinitionEmitterException
-import graphql.language.*
+import graphql.language.Document
+import graphql.language.EnumTypeDefinition
+import graphql.language.EnumValueDefinition
+import graphql.language.FieldDefinition
+import graphql.language.InputObjectTypeDefinition
+import graphql.language.InputValueDefinition
+import graphql.language.InterfaceTypeDefinition
+import graphql.language.NonNullType
+import graphql.language.ObjectTypeDefinition
+import graphql.language.ScalarTypeDefinition
+import graphql.language.Type
+import graphql.language.TypeName
 
 
 class KotlinEmitter(
@@ -22,10 +33,7 @@ class KotlinEmitter(
     override fun ObjectTypeDefinition.emit(document: Document) = if (fieldDefinitions.size > 0) {
         "data class $name(\n${
             fieldDefinitions.joinToString(",\n") {
-                SPACES + SPACES + it.emitOverwrite(
-                    this,
-                    document
-                ) + it.emit()
+                SPACES + SPACES + it.emitOverwrite(this, document) + it.emit()
             }
         }\n)${emitInterfaces()}\n"
     } else {
@@ -39,9 +47,7 @@ class KotlinEmitter(
 
     override fun InputObjectTypeDefinition.emit() = if (inputValueDefinitions.size > 0) {
         "data class ${name}(\n${inputValueDefinitions.joinToString(",\n") { SPACES + SPACES + it.emit() }}\n)\n"
-    } else {
-        ""
-    }
+    } else ""
 
     override fun InputValueDefinition.emit() = "val $name: ${type.emitType()}"
 
@@ -68,7 +74,7 @@ class KotlinEmitter(
 
     private fun FieldDefinition.emitOverwrite(definition: ObjectTypeDefinition, document: Document): String {
         val annotation = when (type is NonNullType && enableOpenApiAnnotations) {
-            true -> "@field:Schema(required = true) "
+            true -> "@field:Schema(required = true)\n"
             false -> ""
         }
 
@@ -79,10 +85,8 @@ class KotlinEmitter(
                     .map { typeName -> (typeName as TypeName).name }
                     .contains(it.name)
             }
-            .flatMap { it.fieldDefinitions }
-            .filter { it.name == this.name }
-            .any()
-            .let { if (it) "${annotation}override " else "$annotation" }
+            .flatMap { it.fieldDefinitions }.any { it.name == this.name }
+            .let { if (it) "${annotation}override " else annotation }
     }
 
     companion object {

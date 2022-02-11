@@ -61,8 +61,8 @@ class GeneratorMojo : AbstractMojo() {
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
-            ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin, enableOpenApiAnnotations).generate(this) }
-            ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
+        ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin, enableOpenApiAnnotations).generate(this) }
+        ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =
         TypeScriptGenerator(targetDirectory, project.version, scalarsTypeScript).generate(this)
