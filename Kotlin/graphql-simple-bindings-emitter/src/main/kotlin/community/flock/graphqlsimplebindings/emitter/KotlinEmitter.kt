@@ -30,22 +30,23 @@ class KotlinEmitter(
     override fun emitDocument(document: Document): String = super.emitDocument(document)
         .let { "package $packageName\n\n$swaggerImport$it" }
 
-    override fun ObjectTypeDefinition.emit(document: Document) = if (fieldDefinitions.size > 0) {
-        "data class $name(\n${
-            fieldDefinitions.joinToString(",\n") {
-                SPACES + SPACES + it.emitOverwrite(this, document) + it.emit()
-            }
-        }\n)${emitInterfaces()}\n"
-    } else ""
+    override fun ObjectTypeDefinition.emit(document: Document) =
+        if (fieldDefinitions.size > 0)
+            "data class $name(\n${
+                fieldDefinitions.joinToString(",\n") {
+                    SPACES + SPACES + it.emitOverwrite(this, document) + it.emit()
+                }
+            }\n)${emitInterfaces()}\n"
+        else ""
 
     override fun FieldDefinition.emit() = "val $name: ${type.emitType()}"
 
     override fun InterfaceTypeDefinition.emit() =
         "interface ${name}{\n${fieldDefinitions.joinToString("\n") { SPACES + SPACES + it.emit() }}\n}\n"
 
-    override fun InputObjectTypeDefinition.emit() = if (inputValueDefinitions.size > 0) {
-        "data class ${name}(\n${inputValueDefinitions.joinToString(",\n") { SPACES + SPACES + it.emit() }}\n)\n"
-    } else ""
+    override fun InputObjectTypeDefinition.emit() =
+        if (inputValueDefinitions.size > 0) "data class ${name}(\n${inputValueDefinitions.joinToString(",\n") { SPACES + SPACES + it.emit() }}\n)\n"
+        else ""
 
     override fun InputValueDefinition.emit() = "val $name: ${type.emitType()}"
 
@@ -83,7 +84,8 @@ class KotlinEmitter(
                     .map { typeName -> (typeName as TypeName).name }
                     .contains(it.name)
             }
-            .flatMap { it.fieldDefinitions }.any { it.name == this.name }
+            .flatMap { it.fieldDefinitions }
+            .any { it.name == this.name }
             .let { if (it) "${annotation}override " else annotation }
     }
 
