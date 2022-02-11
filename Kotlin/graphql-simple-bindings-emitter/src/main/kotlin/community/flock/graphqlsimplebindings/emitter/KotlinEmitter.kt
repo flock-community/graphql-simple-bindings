@@ -36,9 +36,7 @@ class KotlinEmitter(
                 SPACES + SPACES + it.emitOverwrite(this, document) + it.emit()
             }
         }\n)${emitInterfaces()}\n"
-    } else {
-        ""
-    }
+    } else ""
 
     override fun FieldDefinition.emit() = "val $name: ${type.emitType()}"
 
