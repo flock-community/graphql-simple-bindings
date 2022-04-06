@@ -2,6 +2,7 @@ package community.flock.graphqlsimplebindings
 
 import community.flock.graphqlsimplebindings.Language.All
 import community.flock.graphqlsimplebindings.Language.Kotlin
+import community.flock.graphqlsimplebindings.Language.Scala
 import community.flock.graphqlsimplebindings.Language.TypeScript
 import community.flock.graphqlsimplebindings.parser.Parser
 import graphql.language.Document
@@ -36,6 +37,9 @@ class GeneratorMojo : AbstractMojo() {
     private var scalarsKotlin: Map<String, String> = mapOf()
 
     @Parameter
+    private var scalarsScala: Map<String, String> = mapOf()
+
+    @Parameter
     private var scalarsTypeScript: Map<String, String> = mapOf()
 
     @Parameter(defaultValue = "\${project}", readonly = true, required = true)
@@ -51,18 +55,24 @@ class GeneratorMojo : AbstractMojo() {
 
     private fun List<Pair<FileName, Document>>.generate() = when (language) {
         Kotlin -> generateKotlin()
+        Scala -> generateScala()
         TypeScript -> generateTypeScript()
         All -> generateAll()
     }.also { log.info("Generating language: ${language.name}") }
 
     private fun List<Pair<FileName, Document>>.generateAll() {
         generateKotlin()
+        generateScala()
         generateTypeScript()
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
         ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin, enableOpenApiAnnotations).generate(this) }
         ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
+
+    private fun List<Pair<FileName, Document>>.generateScala() = packageName
+        ?.let { ScalaGenerator(targetDirectory, it, scalarsScala, enableOpenApiAnnotations).generate(this) }
+        ?: throw RuntimeException("Configure packageName to generate Scala case classes")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =
         TypeScriptGenerator(targetDirectory, project.version, scalarsTypeScript).generate(this)

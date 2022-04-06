@@ -1,5 +1,5 @@
 package community.flock.graphqlsimplebindings
 
 enum class Language {
-    Kotlin, TypeScript, All
+    Kotlin, Scala, TypeScript, All
 }
