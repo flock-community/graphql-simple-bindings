@@ -1,6 +1,7 @@
 package community.flock.graphqlsimplebindings
 
 import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
+import community.flock.graphqlsimplebindings.emitter.ScalaEmitter
 import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
 import community.flock.graphqlsimplebindings.emitter.common.Emitter
 import community.flock.graphqlsimplebindings.parser.Parser
@@ -21,6 +22,8 @@ class GraphqlSimpleBindingsApplicationTests {
 
     private val scalarsKotlin: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
 
+    private val scalarsScala: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+
     private val scalarsTypeScript: Map<String, String> = mapOf("Date" to "Date")
 
     private val input = (GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
@@ -30,6 +33,9 @@ class GraphqlSimpleBindingsApplicationTests {
 
     @Test
     fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(scalars = scalarsKotlin, enableOpenApiAnnotations = false) writtenTo "App.kt".file
+
+    @Test
+    fun `Scala Emitter`() = input emittedWith ScalaEmitter(scalars = scalarsScala, enableOpenApiAnnotations = false) writtenTo "App.scala".file
 
     @Test
     fun `TypeScript Emitter`() =

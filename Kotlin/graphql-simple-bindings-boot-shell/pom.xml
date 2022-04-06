@@ -58,6 +58,11 @@
                         <DateTime>java.time.LocalDateTime</DateTime>
                         <KeyValue>Map&lt;String, String&gt;</KeyValue>
                     </scalarsKotlin>
+                    <scalarsScala>
+                        <Date>java.time.LocalDate</Date>
+                        <DateTime>java.time.LocalDateTime</DateTime>
+                        <KeyValue>Map[String, String]</KeyValue>
+                    </scalarsScala>
                     <scalarsTypeScript>
                         <Date>Date</Date>
                         <DateTime>Date</DateTime>
