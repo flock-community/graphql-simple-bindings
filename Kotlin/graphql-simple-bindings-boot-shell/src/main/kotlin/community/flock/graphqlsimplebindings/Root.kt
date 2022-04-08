@@ -1,9 +1,9 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.generated.Account
-import community.flock.graphqlsimplebindings.generated.Date
-import community.flock.graphqlsimplebindings.generated.Product
-import community.flock.graphqlsimplebindings.generated.User
+import community.flock.graphqlsimplebindings.generated.kotlin.Account
+import community.flock.graphqlsimplebindings.generated.kotlin.Date
+import community.flock.graphqlsimplebindings.generated.kotlin.Product
+import community.flock.graphqlsimplebindings.generated.kotlin.User
 
 data class Root(
     val date: Date,

@@ -16,7 +16,7 @@ import graphql.language.Type
 import graphql.language.TypeName
 
 class ScalaEmitter(
-    private val packageName: String = "community.flock.graphqlsimplebindings.generated",
+    private val packageName: String,
     private val scalars: Map<String, String> = mapOf(),
     private val enableOpenApiAnnotations: Boolean = false
 ) : Emitter() {

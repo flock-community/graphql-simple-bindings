@@ -1,11 +1,11 @@
 package community.flock.graphqlsimplebindings
 
-import community.flock.graphqlsimplebindings.generated.AccountKey
-import community.flock.graphqlsimplebindings.generated.AccountPassword
-import community.flock.graphqlsimplebindings.generated.DateTime
-import community.flock.graphqlsimplebindings.generated.Product
-import community.flock.graphqlsimplebindings.generated.Type
-import community.flock.graphqlsimplebindings.generated.User
+import community.flock.graphqlsimplebindings.generated.kotlin.AccountKey
+import community.flock.graphqlsimplebindings.generated.kotlin.AccountPassword
+import community.flock.graphqlsimplebindings.generated.kotlin.DateTime
+import community.flock.graphqlsimplebindings.generated.kotlin.Product
+import community.flock.graphqlsimplebindings.generated.kotlin.Type
+import community.flock.graphqlsimplebindings.generated.kotlin.User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDate
