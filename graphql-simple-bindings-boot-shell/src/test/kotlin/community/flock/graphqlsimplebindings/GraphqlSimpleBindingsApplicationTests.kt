@@ -1,5 +1,6 @@
 package community.flock.graphqlsimplebindings
 
+import community.flock.graphqlsimplebindings.emitter.JavaEmitter
 import community.flock.graphqlsimplebindings.emitter.KotlinEmitter
 import community.flock.graphqlsimplebindings.emitter.ScalaEmitter
 import community.flock.graphqlsimplebindings.emitter.TypeScriptEmitter
@@ -20,28 +21,34 @@ class GraphqlSimpleBindingsApplicationTests {
     @Value("\${exampleDirectory:#{null}}")
     var examples: String? = null
 
-    private val scalarsKotlin: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+    private val scalarsKotlin = mapOf("Date" to "java.time.LocalDate")
 
-    private val scalarsScala: Map<String, String> = mapOf("Date" to "java.time.LocalDate")
+    private val scalarsScala = mapOf("Date" to "java.time.LocalDate")
 
-    private val scalarsTypeScript: Map<String, String> = mapOf("Date" to "Date")
+    private val scalarsJava = mapOf("Date" to "java.time.LocalDate")
 
-    private val input = (GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
-        ?: throw RuntimeException("No /input.graphql found"))
-        .readText()
-        .let { Parser.parseSchema(it) }
+    private val scalarsTypeScript = mapOf("Date" to "Date")
 
-    @Test
-    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(packageName = "", scalars = scalarsKotlin, enableOpenApiAnnotations = false) writtenTo "App.kt".file
+    private val input = readInput().readText().let { Parser.parseSchema(it) }
 
     @Test
-    fun `Scala Emitter`() = input emittedWith ScalaEmitter(packageName = "", scalars = scalarsScala, enableOpenApiAnnotations = false) writtenTo "App.scala".file
+    fun `Kotlin Emitter`() = input emittedWith KotlinEmitter(packageName = "kotlin", scalars = scalarsKotlin, enableOpenApiAnnotations = false) writtenTo "App.kt".file
 
     @Test
-    fun `TypeScript Emitter`() =
-        input emittedWith TypeScriptEmitter(scalars = scalarsTypeScript) writtenTo "appFromKt.ts".file
+    fun `Scala Emitter`() = input emittedWith ScalaEmitter(packageName = "scala", scalars = scalarsScala, enableOpenApiAnnotations = false) writtenTo "App.scala".file
 
-    private infix fun Document.emittedWith(emitter: Emitter) = emitter.emitDocument(this)
+    @Test
+    fun `Java Emitter`() = input emittedWith JavaEmitter(packageName = "java", scalars = scalarsJava, enableOpenApiAnnotations = false) writtenTo "App.java".file
+
+    @Test
+    fun `TypeScript Emitter`() = input emittedWith TypeScriptEmitter(scalars = scalarsTypeScript) writtenTo "appFromKt.ts".file
+
+    private fun readInput() = GraphqlSimpleBindingsApplicationTests::class.java.getResource("/input.graphql")
+        ?: throw RuntimeException("No /input.graphql found")
+
+    private infix fun Document.emittedWith(emitter: Emitter) = emitter
+        .emitDocument("App", this, true)
+        .joinToString("\n") { (_, string) -> string }
 
     private infix fun String.writtenTo(file: File?) = file?.writeText(this) ?: println(this)
 

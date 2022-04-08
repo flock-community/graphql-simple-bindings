@@ -66,7 +66,7 @@
                     <scalarsJava>
                         <Date>java.time.LocalDate</Date>
                         <DateTime>java.time.LocalDateTime</DateTime>
-                        <KeyValue>Map&lt;String, String&gt;</KeyValue>
+                        <KeyValue>java.util.Map&lt;String, String&gt;</KeyValue>
                     </scalarsJava>
                     <scalarsTypeScript>
                         <Date>Date</Date>
