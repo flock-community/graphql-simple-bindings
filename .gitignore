@@ -1,5 +1,4 @@
 .idea/
-example/dist
 *.iml
-
+.DS_Store
 pom.xml.versionsBackup
