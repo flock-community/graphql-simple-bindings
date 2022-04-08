@@ -1,6 +1,0 @@
-# import User from "../shared/user/user.graphql"
-
-type Bla {
-  users: User
-  title: [String]
-}

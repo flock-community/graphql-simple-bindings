@@ -1,6 +1,0 @@
-FROM node:12
-
-WORKDIR /app/TypeScript
-
-### Install npm packages global
-RUN npm i -g npm
