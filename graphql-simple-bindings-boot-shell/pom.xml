@@ -63,6 +63,11 @@
                         <DateTime>java.time.LocalDateTime</DateTime>
                         <KeyValue>Map[String, String]</KeyValue>
                     </scalarsScala>
+                    <scalarsJava>
+                        <Date>java.time.LocalDate</Date>
+                        <DateTime>java.time.LocalDateTime</DateTime>
+                        <KeyValue>Map&lt;String, String&gt;</KeyValue>
+                    </scalarsJava>
                     <scalarsTypeScript>
                         <Date>Date</Date>
                         <DateTime>Date</DateTime>
@@ -127,8 +132,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
         </plugins>
