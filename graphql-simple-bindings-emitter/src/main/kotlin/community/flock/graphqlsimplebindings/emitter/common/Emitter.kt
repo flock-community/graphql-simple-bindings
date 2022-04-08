@@ -18,7 +18,7 @@ import graphql.schema.idl.TypeInfo
 abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter,
     InterfaceEmitter, FieldDefinitionEmitter, TypeEmitter {
 
-    open fun emitDocument(fileName: String, document: Document, multipleFiles: Boolean) = document.definitions
+    open fun emitDocument(fileName: String, document: Document, multipleFiles: Boolean = false) = document.definitions
         .mapNotNull { it.emitDefinition(document) }
         .let { if (multipleFiles) it else listOf(fileName to it.joinToString("\n") { (_, doc) -> doc }) }
 

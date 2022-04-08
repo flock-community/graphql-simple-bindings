@@ -16,7 +16,7 @@ import graphql.language.Type
 import graphql.language.TypeName
 
 class JavaEmitter(
-    private val packageName: String,
+    private val packageName: String = "java",
     private val scalars: Map<String, String> = mapOf(),
     private val enableOpenApiAnnotations: Boolean = false
 ) : Emitter() {

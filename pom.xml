@@ -23,16 +23,16 @@
     </modules>
 
     <properties>
-        <spring-boot.version>2.6.2</spring-boot.version> <!-- Needs to be in sync with parent pom -->
-        <java.version>16</java.version>
-        <kotlin.version>1.6.10</kotlin.version>
+        <spring-boot.version>2.6.6</spring-boot.version> <!-- Needs to be in sync with parent pom -->
+        <java.version>17</java.version>
+        <kotlin.version>1.6.20</kotlin.version>
         <graphql-java.version>17.3</graphql-java.version>
-        <junit-jupiter-engine.version>5.5.2</junit-jupiter-engine.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
         <maven-project.version>2.2.1</maven-project.version>
-        <maven-plugin-api.version>3.8.4</maven-plugin-api.version>
-        <maven-plugin-annotations.version>3.6.2</maven-plugin-annotations.version>
-        <maven-plugin-plugin.version>3.6.2</maven-plugin-plugin.version>
+        <maven-plugin-api.version>3.8.5</maven-plugin-api.version>
+        <maven-plugin-annotations.version>3.6.4</maven-plugin-annotations.version>
+        <maven-plugin-plugin.version>3.6.4</maven-plugin-plugin.version>
     </properties>
 
     <dependencyManagement>
