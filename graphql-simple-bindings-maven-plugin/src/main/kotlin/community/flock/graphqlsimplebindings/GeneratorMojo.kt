@@ -39,9 +39,6 @@ class GeneratorMojo : AbstractMojo() {
     @Parameter
     private var scalarsScala: Map<String, String> = mapOf()
 
-//    @Parameter
-//    private var scalarsJava: Map<String, String> = mapOf()
-
     @Parameter
     private var scalarsTypeScript: Map<String, String> = mapOf()
 
@@ -59,7 +56,6 @@ class GeneratorMojo : AbstractMojo() {
     private fun List<Pair<FileName, Document>>.generate() = when (language) {
         Kotlin -> generateKotlin()
         Scala -> generateScala()
-//        Java -> generateJava()
         TypeScript -> generateTypeScript()
         All -> generateAll()
     }.also { log.info("Generating language: ${language.name}") }
@@ -67,7 +63,6 @@ class GeneratorMojo : AbstractMojo() {
     private fun List<Pair<FileName, Document>>.generateAll() {
         generateKotlin()
         generateScala()
-//        generateJava()
         generateTypeScript()
     }
 
@@ -78,10 +73,6 @@ class GeneratorMojo : AbstractMojo() {
     private fun List<Pair<FileName, Document>>.generateScala() = packageName
         ?.let { ScalaGenerator(targetDirectory, "$it.scala", scalarsScala, enableOpenApiAnnotations).generate(this) }
         ?: throw RuntimeException("Configure packageName to generate Scala case classes")
-
-//    private fun List<Pair<FileName, Document>>.generateJava() = packageName
-//        ?.let { JavaGenerator(targetDirectory, "$it.java", scalarsJava, enableOpenApiAnnotations).generate(this) }
-//        ?: throw RuntimeException("Configure packageName to generate Java records")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =
         TypeScriptGenerator(targetDirectory, project.version, scalarsTypeScript).generate(this)
