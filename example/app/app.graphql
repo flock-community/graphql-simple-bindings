@@ -1,0 +1,7 @@
+# import User from "../../TypeScript/node_modules/@flock-community/flock-eco-feature-user/src/main/graphql/user.graphqls"
+# import Date from "../shared/date.graphql"
+
+type App {
+  user: User!
+  createdAt: Date
+}
