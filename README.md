@@ -3,11 +3,10 @@
 Parse a graphql schema and generate simple bindings for:
 - Typescript
 - Kotlin
+- Scala
 
 
 ## Getting started
-
-### Maven
 
 Add the following configuration to your maven pom.xml
 
@@ -18,7 +17,7 @@ Add the following configuration to your maven pom.xml
             <plugin>
                 <groupId>community.flock</groupId>
                 <artifactId>graphql-simple-bindings-maven-plugin</artifactId>
-                <version>0.2.0</version>
+                <version>0.7.0</version>
                 <configuration>
                     <language>All</language>
                     <packageName>community.flock.eco.feature.member.graphql</packageName>
@@ -50,29 +49,12 @@ Add the following configuration to your maven pom.xml
 </project>
 ```
 
-### Node
-```
-npm i @flock/graphql-simple-bindings -g
-graphql-simple-bindings "./example/checkout/*" "./generated"
-```
-
 ## Run in Docker
 ```
-make build-kt
-make run-kt
+make build
+make run
 ```
 In container:
 ```
-cd ./Kotlin
 ./test.sh
-```
-## TypeScript
-```
-make build-ts
-make run-ts
-```
-In container make sure you have a directory `/app/example/dist` then in `/app/TypeScript` run:
-```
-npm install
-npm test
 ```

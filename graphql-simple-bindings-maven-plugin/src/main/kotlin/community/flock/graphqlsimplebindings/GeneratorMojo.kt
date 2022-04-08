@@ -67,11 +67,11 @@ class GeneratorMojo : AbstractMojo() {
     }
 
     private fun List<Pair<FileName, Document>>.generateKotlin() = packageName
-        ?.let { KotlinGenerator(targetDirectory, it, scalarsKotlin, enableOpenApiAnnotations).generate(this) }
+        ?.let { KotlinGenerator(targetDirectory, "$it.kotlin", scalarsKotlin, enableOpenApiAnnotations).generate(this) }
         ?: throw RuntimeException("Configure packageName to generate Kotlin data classes")
 
     private fun List<Pair<FileName, Document>>.generateScala() = packageName
-        ?.let { ScalaGenerator(targetDirectory, it, scalarsScala, enableOpenApiAnnotations).generate(this) }
+        ?.let { ScalaGenerator(targetDirectory, "$it.scala", scalarsScala, enableOpenApiAnnotations).generate(this) }
         ?: throw RuntimeException("Configure packageName to generate Scala case classes")
 
     private fun List<Pair<FileName, Document>>.generateTypeScript() =
