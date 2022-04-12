@@ -18,16 +18,16 @@ import graphql.schema.idl.TypeInfo
 abstract class Emitter : DefinitionEmitter, EnumEmitter, InputEmitter,
     InterfaceEmitter, FieldDefinitionEmitter, TypeEmitter {
 
-    open fun emitDocument(document: Document): String = document.definitions
+    open fun emitDocument(fileName: String, document: Document, multipleFiles: Boolean = false) = document.definitions
         .mapNotNull { it.emitDefinition(document) }
-        .joinToString("\n")
+        .let { if (multipleFiles) it else listOf(fileName to it.joinToString("\n") { (_, doc) -> doc }) }
 
-    private fun Definition<Definition<*>>.emitDefinition(document: Document) = when (this) {
-        is ObjectTypeDefinition -> emit(document)
-        is ScalarTypeDefinition -> emit()
-        is InputObjectTypeDefinition -> emit()
-        is EnumTypeDefinition -> emit()
-        is InterfaceTypeDefinition -> emit()
+    private fun Definition<Definition<*>>.emitDefinition(document: Document): Pair<String, String>? = when (this) {
+        is ObjectTypeDefinition -> emit(document).let { name to it }
+        is ScalarTypeDefinition -> emit()?.let { name to it }
+        is InputObjectTypeDefinition -> emit().let { name to it }
+        is EnumTypeDefinition -> emit().let { name to it }
+        is InterfaceTypeDefinition -> emit().let { name to it }
         else -> throw DefinitionEmitterException(this)
     }
 

@@ -1,0 +1,7 @@
+// Not implemented: A
+// Not implemented: B
+export interface C {
+    hello1?: string;
+    hello2?: string;
+    world?: string;
+}

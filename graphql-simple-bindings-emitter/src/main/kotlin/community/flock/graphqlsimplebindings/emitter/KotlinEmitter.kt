@@ -17,7 +17,7 @@ import graphql.language.TypeName
 
 
 class KotlinEmitter(
-    private val packageName: String,
+    private val packageName: String = "kotlin",
     private val scalars: Map<String, String> = mapOf(),
     private val enableOpenApiAnnotations: Boolean = false
 ) : Emitter() {
@@ -27,8 +27,9 @@ class KotlinEmitter(
         false -> ""
     }
 
-    override fun emitDocument(document: Document): String = super.emitDocument(document)
-        .let { "package $packageName\n\n$swaggerImport$it" }
+    override fun emitDocument(fileName: String, document: Document, multipleFiles: Boolean) =
+        super.emitDocument(fileName, document, multipleFiles)
+            .map { (fileName, doc) -> fileName to "package $packageName\n\n$swaggerImport$doc" }
 
     override fun ObjectTypeDefinition.emit(document: Document) =
         if (fieldDefinitions.size > 0)

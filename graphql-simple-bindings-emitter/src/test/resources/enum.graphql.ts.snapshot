@@ -1,8 +1,7 @@
 export enum TestEnum {
-	ONE,
-	TWO
+    ONE, TWO
 }
 
 export interface TestType {
-  test?: TestEnum;
+    test?: TestEnum;
 }
