@@ -17,7 +17,7 @@ Add the following configuration to your maven pom.xml
             <plugin>
                 <groupId>community.flock</groupId>
                 <artifactId>graphql-simple-bindings-maven-plugin</artifactId>
-                <version>0.7.0</version>
+                <version>0.8.0</version>
                 <configuration>
                     <language>All</language>
                     <packageName>community.flock.eco.feature.member.graphql</packageName>
